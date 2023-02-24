@@ -3,6 +3,7 @@ package com.hyt;
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
@@ -14,6 +15,7 @@ import org.springframework.cloud.client.SpringCloudApplication;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringCloudApplication
+@MapperScan("com.hyt.device.mapper")
 public class HytDeviceApplication
 {
     public static void main( String[] args )
