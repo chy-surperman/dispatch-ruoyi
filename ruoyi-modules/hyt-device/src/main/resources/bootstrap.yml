@@ -20,3 +20,6 @@ spring:
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.hyt.device.domain
+  mapperLocations: classpath:mapper/**/*.xml
+
