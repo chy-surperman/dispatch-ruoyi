@@ -43,6 +43,11 @@ public class DeviceServiceImpl implements IDeviceService
         return deviceMapper.selectDeviceList(device);
     }
 
+    @Override
+    public List<Device> selectDeviceListAndParam(String routeName,String company, int pageNum, int pageSize) {
+        return deviceMapper.selectDeviceListAndPageNum(routeName, company, Integer.valueOf(pageNum), Integer.valueOf(pageSize));
+    }
+
     /**
      * 新增【请填写功能名称】
      * 

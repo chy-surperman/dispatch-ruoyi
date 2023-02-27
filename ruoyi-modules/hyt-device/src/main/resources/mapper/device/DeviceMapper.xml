@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, vehicleId, plateNum, selfNum, routeName, deviceId, screenBrightness, isUseGpsDispatch, volume, oldDeviceId, newDeviceId, reportVersion, currentDeviceVersion, lastVersion, deviceImei, iccid, timeDiff, gpsStatus, siteUploadStatus, company from device
     </sql>
 
-    <select id="selectDeviceList" parameterType="Device" resultMap="DeviceResult">
+    <select id="selectDeviceList"  parameterType="Device" resultMap="DeviceResult">
         <include refid="selectDeviceVo"/>
         <where>  
             <if test="vehicleId != null "> and vehicleId = #{vehicleId}</if>
@@ -55,6 +55,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="company != null  and company != ''"> and company = #{company}</if>
         </where>
     </select>
+
+
+
+
+
+    <select id="selectDeviceListAndPageNum"   resultMap="DeviceResult">
+        <include refid="selectDeviceVo"/>
+        <where>
+            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+        </where> order by routeName,selfNum asc limit #{pageNum},#{pageSize}
+    </select>
+
+
+
     
     <select id="selectDeviceById" parameterType="Long" resultMap="DeviceResult">
         <include refid="selectDeviceVo"/>

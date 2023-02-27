@@ -47,9 +47,24 @@ public class DeviceController extends BaseController
     public TableDataInfo list(Device device)
     {
         startPage();
-        List<Device> list = deviceService.selectDeviceList(device);
+        List<Device> list = this.deviceService.selectDeviceList(device);
         return getDataTable(list);
     }
+
+
+
+
+    /**
+     * 查询【请填写功能名称】列表
+     */
+    @RequiresPermissions("device:device:list")
+    @GetMapping("/listByParam")
+    public TableDataInfo listByParam(String routeName,String company,int pageNum,int pageSize)
+    {
+        List<Device> list = this.deviceService.selectDeviceListAndParam(routeName,company,pageNum,pageSize);
+        return getDataTable(list);
+    }
+
 
     /**
      * 导出【请填写功能名称】列表
