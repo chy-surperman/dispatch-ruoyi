@@ -66,7 +66,12 @@ public class BaseController
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setRows(list);
         rspData.setMsg("查询成功");
-        rspData.setTotal(new PageInfo(list).getTotal());
+        PageInfo pageInfo = new PageInfo(list);
+        rspData.setTotal(pageInfo.getTotal());
+        rspData.setCurrent(pageInfo.getPageNum());
+        rspData.setPageSize(pageInfo.getPageSize());
+        rspData.setPages(pageInfo.getPages());
+        rspData.setNavigatepageNums(pageInfo.getNavigatepageNums());
         return rspData;
     }
 

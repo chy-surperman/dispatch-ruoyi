@@ -51,4 +51,17 @@ public class CacheConstants
      * 登录账户密码错误次数 redis key
      */
     public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
+
+
+    /**
+     * 公司名
+     */
+    public static  final String COMPANY_NAME ="companyName";
+
+
+
+    /**
+     * 线路名
+     */
+    public static  final String ALL_ROUTENAMES ="all_routeNames";
 }

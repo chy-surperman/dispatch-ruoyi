@@ -57,18 +57,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-
-
-
     <select id="selectDeviceListAndPageNum"   resultMap="DeviceResult">
         <include refid="selectDeviceVo"/>
         <where>
             <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
             <if test="company != null  and company != ''"> and company = #{company}</if>
-        </where> order by routeName,selfNum asc limit #{pageNum},#{pageSize}
+        </where>
     </select>
 
 
+    <select id="selectCompanyName" resultType="String">
+        select distinct company from device
+    </select>
+
+
+
+    <select id="selectRouteNameByCompany" resultType="String">
+        select distinct routeName from device where company=#{company}
+    </select>
 
     
     <select id="selectDeviceById" parameterType="Long" resultMap="DeviceResult">

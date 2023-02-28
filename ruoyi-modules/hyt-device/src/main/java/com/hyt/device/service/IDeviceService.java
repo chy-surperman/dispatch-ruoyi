@@ -34,7 +34,7 @@ public interface IDeviceService
      * @param device 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
-    public List<Device> selectDeviceListAndParam(String routeName,String company,int pageNum,int pageSize);
+    public List<Device> selectDeviceListAndParam(String routeName,String company);
 
     /**
      * 新增【请填写功能名称】

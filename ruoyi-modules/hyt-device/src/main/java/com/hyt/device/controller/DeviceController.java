@@ -4,6 +4,8 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.pagehelper.PageHelper;
+import com.ruoyi.common.core.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,16 +54,16 @@ public class DeviceController extends BaseController
     }
 
 
-
-
     /**
      * 查询【请填写功能名称】列表
      */
+    @ApiOperation("通过公司名称，线路名 查找车辆信息 分页查询")
     @RequiresPermissions("device:device:list")
     @GetMapping("/listByParam")
-    public TableDataInfo listByParam(String routeName,String company,int pageNum,int pageSize)
+    public TableDataInfo listByParam(String routeName,String company)
     {
-        List<Device> list = this.deviceService.selectDeviceListAndParam(routeName,company,pageNum,pageSize);
+        startPage();
+        List<Device> list = deviceService.selectDeviceListAndParam(routeName,company);
         return getDataTable(list);
     }
 
