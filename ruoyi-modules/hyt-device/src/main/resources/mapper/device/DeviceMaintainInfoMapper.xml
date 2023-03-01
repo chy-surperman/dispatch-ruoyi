@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.DeviceMaintainInfoMapper">
+    
+    <resultMap type="DeviceMaintainInfo" id="DeviceMaintainInfoResult">
+        <result property="id"    column="id"    />
+        <result property="mid"    column="mid"    />
+        <result property="uid"    column="uid"    />
+        <result property="name"    column="name"    />
+        <result property="percentage"    column="percentage"    />
+        <result property="size"    column="size"    />
+        <result property="type"    column="type"    />
+        <result property="url"    column="url"    />
+    </resultMap>
+
+    <sql id="selectDeviceMaintainInfoVo">
+        select id, mid, uid, name, percentage, size, type, url from device_maintain_info
+    </sql>
+
+    <select id="selectDeviceMaintainInfoList" parameterType="DeviceMaintainInfo" resultMap="DeviceMaintainInfoResult">
+        <include refid="selectDeviceMaintainInfoVo"/>
+        <where>  
+            <if test="mid != null "> and mid = #{mid}</if>
+            <if test="uid != null "> and uid = #{uid}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="percentage != null  and percentage != ''"> and percentage = #{percentage}</if>
+            <if test="size != null "> and size = #{size}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceMaintainInfoById" parameterType="Long" resultMap="DeviceMaintainInfoResult">
+        <include refid="selectDeviceMaintainInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceMaintainInfo" parameterType="DeviceMaintainInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into device_maintain_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mid != null">mid,</if>
+            <if test="uid != null">uid,</if>
+            <if test="name != null">name,</if>
+            <if test="percentage != null">percentage,</if>
+            <if test="size != null">size,</if>
+            <if test="type != null">type,</if>
+            <if test="url != null">url,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mid != null">#{mid},</if>
+            <if test="uid != null">#{uid},</if>
+            <if test="name != null">#{name},</if>
+            <if test="percentage != null">#{percentage},</if>
+            <if test="size != null">#{size},</if>
+            <if test="type != null">#{type},</if>
+            <if test="url != null">#{url},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceMaintainInfo" parameterType="DeviceMaintainInfo">
+        update device_maintain_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mid != null">mid = #{mid},</if>
+            <if test="uid != null">uid = #{uid},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="percentage != null">percentage = #{percentage},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="url != null">url = #{url},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceMaintainInfoById" parameterType="Long">
+        delete from device_maintain_info where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceMaintainInfoByIds" parameterType="String">
+        delete from device_maintain_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

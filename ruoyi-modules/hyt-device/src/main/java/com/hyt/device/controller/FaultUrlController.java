@@ -4,8 +4,6 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.pagehelper.PageHelper;
-import com.ruoyi.common.core.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.hyt.device.domain.Device;
-import com.hyt.device.service.IDeviceService;
+import com.hyt.device.domain.FaultUrl;
+import com.hyt.device.service.IFaultUrlService;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
@@ -31,103 +29,87 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  * 【请填写功能名称】Controller
  * 
  * @author chy
- * @date 2023-02-24
+ * @date 2023-03-01
  */
-@Api("主机配置")
+@Api("报修数据")
 @RestController
-@RequestMapping("/device")
-public class DeviceController extends BaseController
+@RequestMapping("/faultUrl")
+public class FaultUrlController extends BaseController
 {
     @Autowired
-    private IDeviceService deviceService;
+    private IFaultUrlService faultUrlService;
 
     /**
      * 查询【请填写功能名称】列表
      */
-    @ApiOperation("device列表分页")
-    @RequiresPermissions("device:device:list")
+    @ApiOperation("查询【故障】列表")
+    @RequiresPermissions("device:faultUrl:list")
     @GetMapping("/list")
-    public TableDataInfo list(Device device)
+    public TableDataInfo list(FaultUrl faultUrl)
     {
         startPage();
-        List<Device> list = this.deviceService.selectDeviceList(device);
+        List<FaultUrl> list = faultUrlService.selectFaultUrlList(faultUrl);
         return getDataTable(list);
     }
-
-
-    /**
-     * 查询【请填写功能名称】列表
-     */
-    @ApiOperation("通过公司名称，线路名 查找车辆信息 分页查询")
-    @RequiresPermissions("device:device:list")
-    @GetMapping("/listByParam")
-    public TableDataInfo listByParam(String routeName,String company)
-    {
-        startPage();
-        List<Device> list = deviceService.selectDeviceListAndParam(routeName,company);
-        return getDataTable(list);
-    }
-
 
     /**
      * 导出【请填写功能名称】列表
      */
-    @RequiresPermissions("device:device:export")
+    @ApiOperation("导出【故障】列表")
+    @RequiresPermissions("device:faultUrl:export")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    @ApiOperation("导出功能接口")
-    public void export(HttpServletResponse response, Device device)
+    public void export(HttpServletResponse response, FaultUrl faultUrl)
     {
-        List<Device> list = deviceService.selectDeviceList(device);
-        ExcelUtil<Device> util = new ExcelUtil<Device>(Device.class);
+        List<FaultUrl> list = faultUrlService.selectFaultUrlList(faultUrl);
+        ExcelUtil<FaultUrl> util = new ExcelUtil<FaultUrl>(FaultUrl.class);
         util.exportExcel(response, list, "【请填写功能名称】数据");
     }
 
     /**
      * 获取【请填写功能名称】详细信息
      */
-
-    @ApiOperation("通过ID查询主机参数列表")
-    @RequiresPermissions("device:device:query")
+    @ApiOperation("获取【故障】详细信息")
+    @RequiresPermissions("device:faultUrl:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return success(deviceService.selectDeviceById(id));
+        return success(faultUrlService.selectFaultUrlById(id));
     }
 
     /**
      * 新增【请填写功能名称】
      */
-    @ApiOperation("新增add")
-    @RequiresPermissions("device:device:add")
+    @RequiresPermissions("device:faultUrl:add")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Device device)
+    @ApiOperation("新增【故障】")
+    public AjaxResult add(@RequestBody FaultUrl faultUrl)
     {
-        return toAjax(deviceService.insertDevice(device));
+        return toAjax(faultUrlService.insertFaultUrl(faultUrl));
     }
 
     /**
      * 修改【请填写功能名称】
      */
-    @ApiOperation("修改主机参数列表")
-    @RequiresPermissions("device:device:edit")
+    @RequiresPermissions("device:faultUrl:edit")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Device device)
+    @ApiOperation("修改【故障】")
+    public AjaxResult edit(@RequestBody FaultUrl faultUrl)
     {
-        return toAjax(deviceService.updateDevice(device));
+        return toAjax(faultUrlService.updateFaultUrl(faultUrl));
     }
 
     /**
      * 删除【请填写功能名称】
      */
-    @ApiOperation("删除主机通过ID参数列表")
-    @RequiresPermissions("device:device:remove")
+    @RequiresPermissions("device:faultUrl:remove")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
+    @ApiOperation("删除【故障】")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(deviceService.deleteDeviceByIds(ids));
+        return toAjax(faultUrlService.deleteFaultUrlByIds(ids));
     }
 }

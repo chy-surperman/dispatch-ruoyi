@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.Set;
 
 /**
@@ -18,8 +19,8 @@ public class RoutesNameCaches {
     @Autowired
     private DeviceMapper deviceMapper;
 
-    @Autowired
-    private RedisTemplate routeNamesRedisTemplate;
+    @Resource
+    private RedisTemplate<Object,Object> redisTemplate;
 
     @PostConstruct
     public void start(){
@@ -28,12 +29,12 @@ public class RoutesNameCaches {
         for(String companyName:companyNames)
         {
             Set<String> routeNames = deviceMapper.selectRouteNameByCompany(companyName);
-            routeNamesRedisTemplate.opsForHash().put(CacheConstants.ALL_ROUTENAMES,companyName,routeNames);
+            redisTemplate.opsForHash().put(CacheConstants.ALL_ROUTENAMES,companyName,routeNames);
         }
     }
     
     public Set<String> getRouteNames(String company){
-        Object value = routeNamesRedisTemplate.opsForHash().get(CacheConstants.ALL_ROUTENAMES, company);
+        Object value = redisTemplate.opsForHash().get(CacheConstants.ALL_ROUTENAMES, company);
          return null == value? null: (Set<String>) value;
     }
 }

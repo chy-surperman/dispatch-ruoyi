@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.DeviceRouteSiteMapper">
+    
+    <resultMap type="DeviceRouteSite" id="DeviceRouteSiteResult">
+        <result property="id"    column="id"    />
+        <result property="siteId"    column="siteId"    />
+        <result property="starttag"    column="starttag"    />
+        <result property="siteName"    column="siteName"    />
+        <result property="routeName"    column="routeName"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="direction"    column="direction"    />
+        <result property="inLongitude"    column="inLongitude"    />
+        <result property="inLatitude"    column="inLatitude"    />
+        <result property="inDistance"    column="inDistance"    />
+        <result property="outLongitude"    column="outLongitude"    />
+        <result property="outLatitude"    column="outLatitude"    />
+        <result property="outDistance"    column="outDistance"    />
+        <result property="distance"    column="distance"    />
+        <result property="index"    column="index"    />
+    </resultMap>
+
+    <sql id="selectDeviceRouteSiteVo">
+        select id, siteId, starttag, siteName, routeName, longitude, latitude, direction, inLongitude, inLatitude, inDistance, outLongitude, outLatitude, outDistance, distance, index from device_route_site
+    </sql>
+
+    <select id="selectDeviceRouteSiteList" parameterType="DeviceRouteSite" resultMap="DeviceRouteSiteResult">
+        <include refid="selectDeviceRouteSiteVo"/>
+        <where>  
+            <if test="siteId != null  and siteId != ''"> and siteId = #{siteId}</if>
+            <if test="starttag != null  and starttag != ''"> and starttag = #{starttag}</if>
+            <if test="siteName != null  and siteName != ''"> and siteName like concat('%', #{siteName}, '%')</if>
+            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
+            <if test="longitude != null "> and longitude = #{longitude}</if>
+            <if test="latitude != null "> and latitude = #{latitude}</if>
+            <if test="direction != null "> and direction = #{direction}</if>
+            <if test="inLongitude != null "> and inLongitude = #{inLongitude}</if>
+            <if test="inLatitude != null "> and inLatitude = #{inLatitude}</if>
+            <if test="inDistance != null "> and inDistance = #{inDistance}</if>
+            <if test="outLongitude != null "> and outLongitude = #{outLongitude}</if>
+            <if test="outLatitude != null "> and outLatitude = #{outLatitude}</if>
+            <if test="outDistance != null "> and outDistance = #{outDistance}</if>
+            <if test="distance != null "> and distance = #{distance}</if>
+            <if test="index != null "> and index = #{index}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceRouteSiteById" parameterType="Long" resultMap="DeviceRouteSiteResult">
+        <include refid="selectDeviceRouteSiteVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceRouteSite" parameterType="DeviceRouteSite" useGeneratedKeys="true" keyProperty="id">
+        insert into device_route_site
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="siteId != null">siteId,</if>
+            <if test="starttag != null">starttag,</if>
+            <if test="siteName != null">siteName,</if>
+            <if test="routeName != null">routeName,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="direction != null">direction,</if>
+            <if test="inLongitude != null">inLongitude,</if>
+            <if test="inLatitude != null">inLatitude,</if>
+            <if test="inDistance != null">inDistance,</if>
+            <if test="outLongitude != null">outLongitude,</if>
+            <if test="outLatitude != null">outLatitude,</if>
+            <if test="outDistance != null">outDistance,</if>
+            <if test="distance != null">distance,</if>
+            <if test="index != null">index,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="siteId != null">#{siteId},</if>
+            <if test="starttag != null">#{starttag},</if>
+            <if test="siteName != null">#{siteName},</if>
+            <if test="routeName != null">#{routeName},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="direction != null">#{direction},</if>
+            <if test="inLongitude != null">#{inLongitude},</if>
+            <if test="inLatitude != null">#{inLatitude},</if>
+            <if test="inDistance != null">#{inDistance},</if>
+            <if test="outLongitude != null">#{outLongitude},</if>
+            <if test="outLatitude != null">#{outLatitude},</if>
+            <if test="outDistance != null">#{outDistance},</if>
+            <if test="distance != null">#{distance},</if>
+            <if test="index != null">#{index},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceRouteSite" parameterType="DeviceRouteSite">
+        update device_route_site
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="siteId != null">siteId = #{siteId},</if>
+            <if test="starttag != null">starttag = #{starttag},</if>
+            <if test="siteName != null">siteName = #{siteName},</if>
+            <if test="routeName != null">routeName = #{routeName},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="direction != null">direction = #{direction},</if>
+            <if test="inLongitude != null">inLongitude = #{inLongitude},</if>
+            <if test="inLatitude != null">inLatitude = #{inLatitude},</if>
+            <if test="inDistance != null">inDistance = #{inDistance},</if>
+            <if test="outLongitude != null">outLongitude = #{outLongitude},</if>
+            <if test="outLatitude != null">outLatitude = #{outLatitude},</if>
+            <if test="outDistance != null">outDistance = #{outDistance},</if>
+            <if test="distance != null">distance = #{distance},</if>
+            <if test="index != null">index = #{index},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceRouteSiteById" parameterType="Long">
+        delete from device_route_site where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceRouteSiteByIds" parameterType="String">
+        delete from device_route_site where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
