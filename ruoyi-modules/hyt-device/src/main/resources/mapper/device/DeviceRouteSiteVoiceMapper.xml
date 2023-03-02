@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.DeviceRouteSiteVoiceMapper">
+    
+    <resultMap type="DeviceRouteSiteVoice" id="DeviceRouteSiteVoiceResult">
+        <result property="id"    column="id"    />
+        <result property="routeName"    column="routeName"    />
+        <result property="siteId"    column="siteId"    />
+        <result property="inSiteVoice"    column="inSiteVoice"    />
+        <result property="siteVoice"    column="siteVoice"    />
+        <result property="outSiteVoice"    column="outSiteVoice"    />
+        <result property="adVoice"    column="adVoice"    />
+        <result property="tipsVoice"    column="tipsVoice"    />
+    </resultMap>
+
+    <sql id="selectDeviceRouteSiteVoiceVo">
+        select id, routeName, siteId, inSiteVoice, siteVoice, outSiteVoice, adVoice, tipsVoice from device_route_site_voice
+    </sql>
+
+    <select id="selectDeviceRouteSiteVoiceList" parameterType="DeviceRouteSiteVoice" resultMap="DeviceRouteSiteVoiceResult">
+        <include refid="selectDeviceRouteSiteVoiceVo"/>
+        <where>  
+            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
+            <if test="siteId != null  and siteId != ''"> and siteId = #{siteId}</if>
+            <if test="inSiteVoice != null  and inSiteVoice != ''"> and inSiteVoice = #{inSiteVoice}</if>
+            <if test="siteVoice != null  and siteVoice != ''"> and siteVoice = #{siteVoice}</if>
+            <if test="outSiteVoice != null  and outSiteVoice != ''"> and outSiteVoice = #{outSiteVoice}</if>
+            <if test="adVoice != null  and adVoice != ''"> and adVoice = #{adVoice}</if>
+            <if test="tipsVoice != null  and tipsVoice != ''"> and tipsVoice = #{tipsVoice}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceRouteSiteVoiceById" parameterType="Long" resultMap="DeviceRouteSiteVoiceResult">
+        <include refid="selectDeviceRouteSiteVoiceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceRouteSiteVoice" parameterType="DeviceRouteSiteVoice" useGeneratedKeys="true" keyProperty="id">
+        insert into device_route_site_voice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="routeName != null">routeName,</if>
+            <if test="siteId != null">siteId,</if>
+            <if test="inSiteVoice != null">inSiteVoice,</if>
+            <if test="siteVoice != null">siteVoice,</if>
+            <if test="outSiteVoice != null">outSiteVoice,</if>
+            <if test="adVoice != null">adVoice,</if>
+            <if test="tipsVoice != null">tipsVoice,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="routeName != null">#{routeName},</if>
+            <if test="siteId != null">#{siteId},</if>
+            <if test="inSiteVoice != null">#{inSiteVoice},</if>
+            <if test="siteVoice != null">#{siteVoice},</if>
+            <if test="outSiteVoice != null">#{outSiteVoice},</if>
+            <if test="adVoice != null">#{adVoice},</if>
+            <if test="tipsVoice != null">#{tipsVoice},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceRouteSiteVoice" parameterType="DeviceRouteSiteVoice">
+        update device_route_site_voice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="routeName != null">routeName = #{routeName},</if>
+            <if test="siteId != null">siteId = #{siteId},</if>
+            <if test="inSiteVoice != null">inSiteVoice = #{inSiteVoice},</if>
+            <if test="siteVoice != null">siteVoice = #{siteVoice},</if>
+            <if test="outSiteVoice != null">outSiteVoice = #{outSiteVoice},</if>
+            <if test="adVoice != null">adVoice = #{adVoice},</if>
+            <if test="tipsVoice != null">tipsVoice = #{tipsVoice},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceRouteSiteVoiceById" parameterType="Long">
+        delete from device_route_site_voice where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceRouteSiteVoiceByIds" parameterType="String">
+        delete from device_route_site_voice where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

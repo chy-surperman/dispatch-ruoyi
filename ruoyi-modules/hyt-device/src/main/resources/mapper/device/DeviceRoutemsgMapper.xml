@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.DeviceRoutemsgMapper">
+    
+    <resultMap type="DeviceRoutemsg" id="DeviceRoutemsgResult">
+        <result property="id"    column="id"    />
+        <result property="groupName"    column="groupName"    />
+        <result property="routeName"    column="routeName"    />
+        <result property="tripMileage"    column="tripMileage"    />
+        <result property="trip"    column="trip"    />
+        <result property="routeType"    column="routeType"    />
+    </resultMap>
+
+    <sql id="selectDeviceRoutemsgVo">
+        select id, groupName, routeName, tripMileage, trip, routeType from device_routeMsg
+    </sql>
+
+    <select id="selectDeviceRoutemsgList" parameterType="DeviceRoutemsg" resultMap="DeviceRoutemsgResult">
+        <include refid="selectDeviceRoutemsgVo"/>
+        <where>  
+            <if test="groupName != null  and groupName != ''"> and groupName like concat('%', #{groupName}, '%')</if>
+            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
+            <if test="tripMileage != null "> and tripMileage = #{tripMileage}</if>
+            <if test="trip != null "> and trip = #{trip}</if>
+            <if test="routeType != null  and routeType != ''"> and routeType = #{routeType}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceRoutemsgById" parameterType="Long" resultMap="DeviceRoutemsgResult">
+        <include refid="selectDeviceRoutemsgVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceRoutemsg" parameterType="DeviceRoutemsg" useGeneratedKeys="true" keyProperty="id">
+        insert into device_routeMsg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">groupName,</if>
+            <if test="routeName != null">routeName,</if>
+            <if test="tripMileage != null">tripMileage,</if>
+            <if test="trip != null">trip,</if>
+            <if test="routeType != null">routeType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">#{groupName},</if>
+            <if test="routeName != null">#{routeName},</if>
+            <if test="tripMileage != null">#{tripMileage},</if>
+            <if test="trip != null">#{trip},</if>
+            <if test="routeType != null">#{routeType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceRoutemsg" parameterType="DeviceRoutemsg">
+        update device_routeMsg
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupName != null">groupName = #{groupName},</if>
+            <if test="routeName != null">routeName = #{routeName},</if>
+            <if test="tripMileage != null">tripMileage = #{tripMileage},</if>
+            <if test="trip != null">trip = #{trip},</if>
+            <if test="routeType != null">routeType = #{routeType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceRoutemsgById" parameterType="Long">
+        delete from device_routeMsg where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceRoutemsgByIds" parameterType="String">
+        delete from device_routeMsg where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

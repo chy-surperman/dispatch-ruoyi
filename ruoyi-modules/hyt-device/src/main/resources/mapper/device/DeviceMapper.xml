@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.DeviceMapper">
+    
+    <resultMap type="Device" id="DeviceResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicleId"    />
+        <result property="plateNum"    column="plateNum"    />
+        <result property="selfNum"    column="selfNum"    />
+        <result property="routeName"    column="routeName"    />
+        <result property="deviceId"    column="deviceId"    />
+        <result property="screenBrightness"    column="screenBrightness"    />
+        <result property="isUseGpsDispatch"    column="isUseGpsDispatch"    />
+        <result property="volume"    column="volume"    />
+        <result property="oldDeviceId"    column="oldDeviceId"    />
+        <result property="newDeviceId"    column="newDeviceId"    />
+        <result property="reportVersion"    column="reportVersion"    />
+        <result property="currentDeviceVersion"    column="currentDeviceVersion"    />
+        <result property="lastVersion"    column="lastVersion"    />
+        <result property="deviceImei"    column="deviceImei"    />
+        <result property="iccid"    column="iccid"    />
+        <result property="timeDiff"    column="timeDiff"    />
+        <result property="gpsStatus"    column="gpsStatus"    />
+        <result property="siteUploadStatus"    column="siteUploadStatus"    />
+        <result property="company"    column="company"    />
+    </resultMap>
+
+    <sql id="selectDeviceVo">
+        select id, vehicleId, plateNum, selfNum, routeName, deviceId, screenBrightness, isUseGpsDispatch, volume, oldDeviceId, newDeviceId, reportVersion, currentDeviceVersion, lastVersion, deviceImei, iccid, timeDiff, gpsStatus, siteUploadStatus, company from device
+    </sql>
+
+    <select id="selectDeviceList"  parameterType="Device" resultMap="DeviceResult">
+        <include refid="selectDeviceVo"/>
+        <where>  
+            <if test="vehicleId != null "> and vehicleId = #{vehicleId}</if>
+            <if test="plateNum != null  and plateNum != ''"> and plateNum = #{plateNum}</if>
+            <if test="selfNum != null  and selfNum != ''"> and selfNum = #{selfNum}</if>
+            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
+            <if test="deviceId != null  and deviceId != ''"> and deviceId = #{deviceId}</if>
+            <if test="screenBrightness != null "> and screenBrightness = #{screenBrightness}</if>
+            <if test="isUseGpsDispatch != null "> and isUseGpsDispatch = #{isUseGpsDispatch}</if>
+            <if test="volume != null "> and volume = #{volume}</if>
+            <if test="oldDeviceId != null  and oldDeviceId != ''"> and oldDeviceId = #{oldDeviceId}</if>
+            <if test="newDeviceId != null  and newDeviceId != ''"> and newDeviceId = #{newDeviceId}</if>
+            <if test="reportVersion != null "> and reportVersion = #{reportVersion}</if>
+            <if test="currentDeviceVersion != null "> and currentDeviceVersion = #{currentDeviceVersion}</if>
+            <if test="lastVersion != null "> and lastVersion = #{lastVersion}</if>
+            <if test="deviceImei != null  and deviceImei != ''"> and deviceImei = #{deviceImei}</if>
+            <if test="iccid != null  and iccid != ''"> and iccid = #{iccid}</if>
+            <if test="timeDiff != null "> and timeDiff = #{timeDiff}</if>
+            <if test="gpsStatus != null  and gpsStatus != ''"> and gpsStatus = #{gpsStatus}</if>
+            <if test="siteUploadStatus != null  and siteUploadStatus != ''"> and siteUploadStatus = #{siteUploadStatus}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+        </where>
+    </select>
+
+
+    <select id="selectDeviceListAndPageNum"   resultMap="DeviceResult">
+        <include refid="selectDeviceVo"/>
+        <where>
+            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+        </where>
+    </select>
+
+
+    <select id="selectCompanyName" resultType="String">
+        select distinct company from device
+    </select>
+
+
+
+    <select id="selectRouteNameByCompany" resultType="String">
+        select distinct routeName from device where company=#{company}
+    </select>
+
+    
+    <select id="selectDeviceById" parameterType="Long" resultMap="DeviceResult">
+        <include refid="selectDeviceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDevice" parameterType="Device" useGeneratedKeys="true" keyProperty="id">
+        insert into device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">vehicleId,</if>
+            <if test="plateNum != null">plateNum,</if>
+            <if test="selfNum != null">selfNum,</if>
+            <if test="routeName != null">routeName,</if>
+            <if test="deviceId != null">deviceId,</if>
+            <if test="screenBrightness != null">screenBrightness,</if>
+            <if test="isUseGpsDispatch != null">isUseGpsDispatch,</if>
+            <if test="volume != null">volume,</if>
+            <if test="oldDeviceId != null">oldDeviceId,</if>
+            <if test="newDeviceId != null">newDeviceId,</if>
+            <if test="reportVersion != null">reportVersion,</if>
+            <if test="currentDeviceVersion != null">currentDeviceVersion,</if>
+            <if test="lastVersion != null">lastVersion,</if>
+            <if test="deviceImei != null">deviceImei,</if>
+            <if test="iccid != null">iccid,</if>
+            <if test="timeDiff != null">timeDiff,</if>
+            <if test="gpsStatus != null">gpsStatus,</if>
+            <if test="siteUploadStatus != null">siteUploadStatus,</if>
+            <if test="company != null">company,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">#{vehicleId},</if>
+            <if test="plateNum != null">#{plateNum},</if>
+            <if test="selfNum != null">#{selfNum},</if>
+            <if test="routeName != null">#{routeName},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="screenBrightness != null">#{screenBrightness},</if>
+            <if test="isUseGpsDispatch != null">#{isUseGpsDispatch},</if>
+            <if test="volume != null">#{volume},</if>
+            <if test="oldDeviceId != null">#{oldDeviceId},</if>
+            <if test="newDeviceId != null">#{newDeviceId},</if>
+            <if test="reportVersion != null">#{reportVersion},</if>
+            <if test="currentDeviceVersion != null">#{currentDeviceVersion},</if>
+            <if test="lastVersion != null">#{lastVersion},</if>
+            <if test="deviceImei != null">#{deviceImei},</if>
+            <if test="iccid != null">#{iccid},</if>
+            <if test="timeDiff != null">#{timeDiff},</if>
+            <if test="gpsStatus != null">#{gpsStatus},</if>
+            <if test="siteUploadStatus != null">#{siteUploadStatus},</if>
+            <if test="company != null">#{company},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDevice" parameterType="Device">
+        update device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null">vehicleId = #{vehicleId},</if>
+            <if test="plateNum != null">plateNum = #{plateNum},</if>
+            <if test="selfNum != null">selfNum = #{selfNum},</if>
+            <if test="routeName != null">routeName = #{routeName},</if>
+            <if test="deviceId != null">deviceId = #{deviceId},</if>
+            <if test="screenBrightness != null">screenBrightness = #{screenBrightness},</if>
+            <if test="isUseGpsDispatch != null">isUseGpsDispatch = #{isUseGpsDispatch},</if>
+            <if test="volume != null">volume = #{volume},</if>
+            <if test="oldDeviceId != null">oldDeviceId = #{oldDeviceId},</if>
+            <if test="newDeviceId != null">newDeviceId = #{newDeviceId},</if>
+            <if test="reportVersion != null">reportVersion = #{reportVersion},</if>
+            <if test="currentDeviceVersion != null">currentDeviceVersion = #{currentDeviceVersion},</if>
+            <if test="lastVersion != null">lastVersion = #{lastVersion},</if>
+            <if test="deviceImei != null">deviceImei = #{deviceImei},</if>
+            <if test="iccid != null">iccid = #{iccid},</if>
+            <if test="timeDiff != null">timeDiff = #{timeDiff},</if>
+            <if test="gpsStatus != null">gpsStatus = #{gpsStatus},</if>
+            <if test="siteUploadStatus != null">siteUploadStatus = #{siteUploadStatus},</if>
+            <if test="company != null">company = #{company},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceById" parameterType="Long">
+        delete from device where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceByIds" parameterType="String">
+        delete from device where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

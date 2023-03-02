@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.DriverMsgContentMapper">
+    
+    <resultMap type="DriverMsgContent" id="DriverMsgContentResult">
+        <result property="id"    column="id"    />
+        <result property="contentId"    column="contentId"    />
+        <result property="content"    column="content"    />
+        <result property="publishTime"    column="publishTime"    />
+        <result property="expiredTime"    column="expiredTime"    />
+        <result property="publisherId"    column="publisherId"    />
+    </resultMap>
+
+    <sql id="selectDriverMsgContentVo">
+        select id, contentId, content, publishTime, expiredTime, publisherId from driver_msg_content
+    </sql>
+
+    <select id="selectDriverMsgContentList" parameterType="DriverMsgContent" resultMap="DriverMsgContentResult">
+        <include refid="selectDriverMsgContentVo"/>
+        <where>  
+            <if test="contentId != null  and contentId != ''"> and contentId = #{contentId}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="publishTime != null "> and publishTime = #{publishTime}</if>
+            <if test="expiredTime != null "> and expiredTime = #{expiredTime}</if>
+            <if test="publisherId != null  and publisherId != ''"> and publisherId = #{publisherId}</if>
+        </where>
+    </select>
+    
+    <select id="selectDriverMsgContentById" parameterType="Integer" resultMap="DriverMsgContentResult">
+        <include refid="selectDriverMsgContentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDriverMsgContent" parameterType="DriverMsgContent" useGeneratedKeys="true" keyProperty="id">
+        insert into driver_msg_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="contentId != null">contentId,</if>
+            <if test="content != null">content,</if>
+            <if test="publishTime != null">publishTime,</if>
+            <if test="expiredTime != null">expiredTime,</if>
+            <if test="publisherId != null">publisherId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="contentId != null">#{contentId},</if>
+            <if test="content != null">#{content},</if>
+            <if test="publishTime != null">#{publishTime},</if>
+            <if test="expiredTime != null">#{expiredTime},</if>
+            <if test="publisherId != null">#{publisherId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDriverMsgContent" parameterType="DriverMsgContent">
+        update driver_msg_content
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="contentId != null">contentId = #{contentId},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="publishTime != null">publishTime = #{publishTime},</if>
+            <if test="expiredTime != null">expiredTime = #{expiredTime},</if>
+            <if test="publisherId != null">publisherId = #{publisherId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDriverMsgContentById" parameterType="Integer">
+        delete from driver_msg_content where id = #{id}
+    </delete>
+
+    <delete id="deleteDriverMsgContentByIds" parameterType="String">
+        delete from driver_msg_content where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
