@@ -37,13 +37,13 @@
           <img :src="codeUrl" @click="getCode" class="login-code-img"/>
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;" class="CheckBox">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
         <el-button
           :loading="loading"
           size="medium"
           type="primary"
-          style="width:100%;"
+          style="width:100%;background-color: rgb(3,109,107);border-color: rgb(3,109,107)"
           @click.native.prevent="handleLogin"
         >
           <span v-if="!loading">登 录</span>
@@ -155,24 +155,25 @@ export default {
 };
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style rel="stylesheet/scss" lang="scss" scoped>
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
+  background-image: url("../assets/images/login-background2.jpg");
   background-size: cover;
 }
 .title {
-  margin: 0px auto 30px auto;
+  font-family: 'maoken',serif;
+  margin: 0 auto 30px auto;
   text-align: center;
-  color: #707070;
+  color: rgb(3,109,107);
 }
 
 .login-form {
   border-radius: 6px;
-  background: #ffffff;
+  background: rgb(255,255,255,0.6);
   width: 400px;
   padding: 25px 25px 5px 25px;
   .el-input {
@@ -216,4 +217,30 @@ export default {
 .login-code-img {
   height: 38px;
 }
+/* 设置带边框的checkbox，选中后边框的颜色 */
+.CheckBox.is-bordered.is-checked {
+  border-color: rgb(3,109,107);
+}
+
+/* 设置选中后的文字颜色 */
+.CheckBox .el-checkbox__input.is-checked+.el-checkbox__label {
+  color: rgb(3,109,107);
+}
+
+/* 设置选中后对勾框的边框和背景颜色 */
+.CheckBox .el-checkbox__input.is-checked .el-checkbox__inner, .myRedCheckBox .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  border-color: rgb(3,109,107);
+  background-color:rgb(3,109,107);
+}
+
+/* 设置checkbox获得焦点后，对勾框的边框颜色 */
+.CheckBox .el-checkbox__input.is-focus .el-checkbox__inner{
+  border-color: rgb(3,109,107);
+}
+
+/* 设置鼠标经过对勾框，对勾框边框的颜色 */
+.CheckBox .el-checkbox__inner:hover{
+  border-color: rgb(3,109,107);
+}
+
 </style>
