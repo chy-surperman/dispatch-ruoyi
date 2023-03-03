@@ -2,6 +2,8 @@ package com.hyt.device.controller;
 
 import com.hyt.device.caches.CompanyCache;
 import com.hyt.device.caches.RoutesNameCaches;
+import com.hyt.device.domain.DeviceRoutemsg;
+import com.hyt.device.service.IDeviceRoutemsgService;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
 import io.swagger.annotations.Api;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,7 +31,8 @@ public class BasicInfoController {
     @Autowired
     public RoutesNameCaches routesNameCaches;
     
-    
+    @Autowired
+    public IDeviceRoutemsgService deviceRoutemsgService;
     
 
     @ApiOperation("获取公司列表")
@@ -51,5 +55,18 @@ public class BasicInfoController {
             return R.fail("线路名获取失败");
         }
         return R.ok(routeNames,"查询数据成功");
+    }
+
+
+
+
+    @ApiOperation("获取线路名列表")
+    @RequestMapping("/allRouteName")
+    public R getAllRouteName(){
+        List<DeviceRoutemsg> deviceRoutemsgs = deviceRoutemsgService.selectAllRouteMsg();
+        if (StringUtils.isEmpty(deviceRoutemsgs)){
+            return R.fail("线路名获取失败");
+        }
+        return R.ok(deviceRoutemsgs,"查询数据成功");
     }
 }

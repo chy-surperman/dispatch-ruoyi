@@ -1,6 +1,8 @@
 package com.hyt.device.service;
 
 import java.util.List;
+
+import com.hyt.device.domain.DeviceCameraListStatus;
 import com.hyt.device.domain.DeviceCheckVideoResultVehicleid;
 
 /**
@@ -58,4 +60,7 @@ public interface IDeviceCheckVideoResultVehicleidService
      * @return 结果
      */
     public int deleteDeviceCheckVideoResultVehicleidById(Long id);
+
+
+    public List<DeviceCameraListStatus> getDeviceCameraListStatus(String workdate);
 }

@@ -1,6 +1,8 @@
 package com.hyt.device.service.impl;
 
 import java.util.List;
+
+import com.hyt.device.domain.DeviceCameraListStatus;
 import com.ruoyi.common.core.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,5 +93,12 @@ public class DeviceCheckVideoResultVehicleidServiceImpl implements IDeviceCheckV
     public int deleteDeviceCheckVideoResultVehicleidById(Long id)
     {
         return deviceCheckVideoResultVehicleidMapper.deleteDeviceCheckVideoResultVehicleidById(id);
+    }
+
+    @Override
+    public List<DeviceCameraListStatus> getDeviceCameraListStatus(String workdate) {
+       String startTime=workdate+" 00:00:00";
+       String endTime=workdate+" 23:59:59";
+        return deviceCheckVideoResultVehicleidMapper.getDeviceCameraListStatus(startTime,endTime);
     }
 }

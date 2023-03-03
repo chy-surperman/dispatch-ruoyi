@@ -1,6 +1,8 @@
 package com.hyt.device.mapper;
 
 import java.util.List;
+import java.util.Set;
+
 import com.hyt.device.domain.DeviceRoutemsg;
 
 /**
@@ -18,6 +20,16 @@ public interface DeviceRoutemsgMapper
      * @return 【请填写功能名称】
      */
     public DeviceRoutemsg selectDeviceRoutemsgById(Long id);
+
+
+
+    /**
+     * 查询【请填写功能名称】
+     *
+     * @param id 【请填写功能名称】主键
+     * @return 【请填写功能名称】
+     */
+    public List<DeviceRoutemsg> selectAllDeviceRoutemsg();
 
     /**
      * 查询【请填写功能名称】列表

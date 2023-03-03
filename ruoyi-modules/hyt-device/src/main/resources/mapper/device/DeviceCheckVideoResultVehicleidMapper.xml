@@ -13,6 +13,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="createTime"    />
     </resultMap>
 
+
+    <resultMap type="DeviceCameraListStatus" id="DeviceCameraListStatusResult">
+        <result property="company"    column="company"    />
+        <result property="routeName"    column="routeName"    />
+        <result property="selfNum"    column="selfNum"    />
+        <result property="plateNum"    column="plateNum"    />
+        <result property="deviceId"    column="deviceId"    />
+        <result property="cameraId"    column="cameraId"    />
+        <result property="total"    column="total"    />
+        <result property="have"    column="you"    />
+        <result property="notHave"    column="wu"    />
+    </resultMap>
+
+
     <sql id="selectDeviceCheckVideoResultVehicleidVo">
         select id, deviceId, cameraId, channelId, hasVideo, createTime from device_check_video_result_vehicleId
     </sql>
@@ -32,6 +46,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDeviceCheckVideoResultVehicleidVo"/>
         where id = #{id}
     </select>
+
+
+
+    <select id="getDeviceCameraListStatus" parameterType="String" resultMap="DeviceCameraListStatusResult">
+        SELECT
+        d.company,d.routeName,d.selfNum,d.plateNum,v.deviceId,v.cameraId,COUNT(1) as total,SUM(IF(v.hasVideo=1,1,0)) AS you,SUM(IF(v.hasVideo=0,1,0)) as wu
+        FROM
+        device.device_check_video_result_vehicleId v LEFT  JOIN device d ON  v.deviceId=d.deviceId
+        WHERE
+        v.hasVideo!=2
+        and	v.createTime <![CDATA[ >= ]]> #{startTime}
+        AND v.createTime <![CDATA[ <= ]]> #{endTime}
+        GROUP BY
+        d.company,d.routeName,d.selfNum,d.plateNum,v.deviceId,v.cameraId HAVING wu>you
+    </select>
+
         
     <insert id="insertDeviceCheckVideoResultVehicleid" parameterType="DeviceCheckVideoResultVehicleid" useGeneratedKeys="true" keyProperty="id">
         insert into device_check_video_result_vehicleId

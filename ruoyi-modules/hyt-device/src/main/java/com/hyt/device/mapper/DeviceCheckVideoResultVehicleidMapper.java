@@ -1,7 +1,12 @@
 package com.hyt.device.mapper;
 
 import java.util.List;
+
+import com.hyt.device.domain.DeviceCameraListStatus;
 import com.hyt.device.domain.DeviceCheckVideoResultVehicleid;
+import org.apache.ibatis.annotations.Param;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -58,4 +63,9 @@ public interface DeviceCheckVideoResultVehicleidMapper
      * @return 结果
      */
     public int deleteDeviceCheckVideoResultVehicleidByIds(Long[] ids);
+
+
+    public List<DeviceCameraListStatus> getDeviceCameraListStatus(@Param("startTime") String startTime,@Param("endTime")  String endTime);
+
+
 }

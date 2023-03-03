@@ -90,4 +90,9 @@ public class DeviceRoutemsgServiceImpl implements IDeviceRoutemsgService
     {
         return deviceRoutemsgMapper.deleteDeviceRoutemsgById(id);
     }
+
+    @Override
+    public List<DeviceRoutemsg> selectAllRouteMsg() {
+        return deviceRoutemsgMapper.selectAllDeviceRoutemsg();
+    }
 }

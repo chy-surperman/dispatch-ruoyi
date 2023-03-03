@@ -58,4 +58,8 @@ public interface IDeviceRoutemsgService
      * @return 结果
      */
     public int deleteDeviceRoutemsgById(Long id);
+
+
+
+    public  List<DeviceRoutemsg> selectAllRouteMsg();
 }

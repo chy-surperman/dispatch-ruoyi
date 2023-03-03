@@ -4,7 +4,10 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hyt.device.domain.DeviceCameraListStatus;
+import com.ruoyi.common.core.domain.R;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -105,4 +108,30 @@ public class DeviceCheckVideoResultVehicleidController extends BaseController
     {
         return toAjax(deviceCheckVideoResultVehicleidService.deleteDeviceCheckVideoResultVehicleidByIds(ids));
     }
+
+    /**
+     * 查询【当天是否有无录像概率功能名称】
+     */
+    @RequiresPermissions("device:vehicleId:list")
+    @RequestMapping("/camraListStatus")
+    @ApiOperation("录像概率查询功能")
+    public R getCameraListStatus(String workdate)
+    {
+        return R.ok(deviceCheckVideoResultVehicleidService.getDeviceCameraListStatus(workdate));
+    }
+
+    /**
+     * 导出【请填写功能名称】列表
+     */
+    @RequiresPermissions("device:vehicleId:export")
+    @Log(title = "【导出查询摄像头编号功能】", businessType = BusinessType.EXPORT)
+    @PostMapping("/exportCamera")
+    @ApiOperation("导出查询摄像头编号功能")
+    public void exportCamera(HttpServletResponse response, String workdate)
+    {
+        List<DeviceCameraListStatus> deviceCameraListStatus = deviceCheckVideoResultVehicleidService.getDeviceCameraListStatus(workdate);
+        ExcelUtil<DeviceCameraListStatus> util = new ExcelUtil<DeviceCameraListStatus>(DeviceCameraListStatus.class);
+        util.exportExcel(response, deviceCameraListStatus, "【导出查询摄像头编号】数据");
+    }
+
 }
