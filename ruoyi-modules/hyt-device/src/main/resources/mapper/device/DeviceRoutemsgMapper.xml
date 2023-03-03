@@ -29,21 +29,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-   <select id="selectAllDeviceRoutemsg" resultMap="DeviceRoutemsgResult">
-       select <include refid="selectDeviceRoutemsgVo"/>  from device_routeMsg;
+   <select id="selectAllDeviceRoutemsg" resultType="DeviceRoutemsg">
+       <include refid="selectDeviceRoutemsgVo"/>
    </select>
 
 
-    <select id="selectDeviceRoutemsgList" parameterType="DeviceRoutemsg" resultMap="DeviceRoutemsgResult">
-        <include refid="selectDeviceRoutemsgVo"/>
-        <where>
-            <if test="groupName != null  and groupName != ''"> and groupName like concat('%', #{groupName}, '%')</if>
-            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
-            <if test="tripMileage != null "> and tripMileage = #{tripMileage}</if>
-            <if test="trip != null "> and trip = #{trip}</if>
-            <if test="routeType != null  and routeType != ''"> and routeType = #{routeType}</if>
-        </where>
-    </select>
     
     <select id="selectDeviceRoutemsgById" parameterType="Long" resultMap="DeviceRoutemsgResult">
         <include refid="selectDeviceRoutemsgVo"/>
