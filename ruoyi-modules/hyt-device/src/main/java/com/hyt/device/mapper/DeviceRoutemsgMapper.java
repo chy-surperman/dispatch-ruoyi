@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.hyt.device.domain.DeviceRoutemsg;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -70,4 +71,10 @@ public interface DeviceRoutemsgMapper
      * @return 结果
      */
     public int deleteDeviceRoutemsgByIds(Long[] ids);
+
+
+    public List<DeviceRoutemsg> selectRouteMsgNameByCompany(@Param("company")String company);
+
+
+    public Set<String> selectCompanyName();
 }

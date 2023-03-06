@@ -31,11 +31,11 @@ public interface DeviceMapper
     public List<Device> selectDeviceList(Device device);
 
 
-    public Set<String> selectCompanyName();
 
 
 
-    public Set<String> selectRouteNameByCompany(@Param("company")String company);
+
+
 
     /**
      * 查询【请填写功能名称】列表

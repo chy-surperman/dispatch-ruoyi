@@ -50,7 +50,7 @@ public class BasicInfoController {
     @ApiOperation("获取线路名列表")
     @RequestMapping("/routeName")
     public R getRouteName(String company){
-        Set<String> routeNames = routesNameCaches.getRouteNames(company);
+        List<DeviceRoutemsg> routeNames=routesNameCaches.getRouteNames(company);
         if (StringUtils.isEmpty(routeNames)){
             return R.fail("线路名获取失败");
         }
@@ -58,9 +58,7 @@ public class BasicInfoController {
     }
 
 
-
-
-    @ApiOperation("获取线路名列表")
+    @ApiOperation("获取所有线路名列表")
     @RequestMapping("/allRouteName")
     public R getAllRouteName(){
         List<DeviceRoutemsg> deviceRoutemsgs = deviceRoutemsgService.selectAllRouteMsg();

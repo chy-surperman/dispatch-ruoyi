@@ -1,6 +1,7 @@
 package com.hyt.device.caches;
 
 import com.hyt.device.mapper.DeviceMapper;
+import com.hyt.device.mapper.DeviceRoutemsgMapper;
 import com.ruoyi.common.core.constant.CacheConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,7 +21,7 @@ public class CompanyCache {
 
 
     @Autowired
-    private DeviceMapper deviceMapper;
+    private DeviceRoutemsgMapper DeviceRoutemsgMapper;
 
     @Autowired
     private RedisTemplate<String, String> companyRedisTemplate;
@@ -28,7 +29,7 @@ public class CompanyCache {
 
     @PostConstruct
     public void start() {
-        Set<String> companyName = deviceMapper.selectCompanyName();
+        Set<String> companyName = DeviceRoutemsgMapper.selectCompanyName();
         Iterator<String> iterator = companyName.iterator();
         while (iterator.hasNext()){
             String next = iterator.next();

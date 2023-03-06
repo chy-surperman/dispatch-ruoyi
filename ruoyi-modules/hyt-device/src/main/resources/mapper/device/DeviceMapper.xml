@@ -66,15 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-    <select id="selectCompanyName" resultType="String">
-        select distinct company from device
-    </select>
 
 
 
-    <select id="selectRouteNameByCompany" resultType="String">
-        select distinct routeName from device where company=#{company}
-    </select>
+
+
 
     
     <select id="selectDeviceById" parameterType="Long" resultMap="DeviceResult">

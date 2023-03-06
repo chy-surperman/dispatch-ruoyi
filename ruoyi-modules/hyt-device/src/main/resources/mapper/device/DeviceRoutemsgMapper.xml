@@ -11,10 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="tripMileage"    column="tripMileage"    />
         <result property="trip"    column="trip"    />
         <result property="routeType"    column="routeType"    />
+        <result property="company"    column="company"    />
     </resultMap>
 
     <sql id="selectDeviceRoutemsgVo">
-        select id, groupName, routeName, tripMileage, trip, routeType from device_routeMsg
+        select id, groupName, routeName, tripMileage, trip, routeType, company from device_routeMsg
     </sql>
 
     <select id="selectDeviceRoutemsgList" parameterType="DeviceRoutemsg" resultMap="DeviceRoutemsgResult">
@@ -33,8 +34,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        <include refid="selectDeviceRoutemsgVo"/>
    </select>
 
+    <select id="selectRouteMsgNameByCompany" resultType="DeviceRoutemsg">
+        <include refid="selectDeviceRoutemsgVo"/> WHERE company=#{company}
+    </select>
 
-    
     <select id="selectDeviceRoutemsgById" parameterType="Long" resultMap="DeviceRoutemsgResult">
         <include refid="selectDeviceRoutemsgVo"/>
         where id = #{id}
@@ -80,4 +83,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+
+    <select id="selectCompanyName" resultType="String">
+        select distinct company from device.device_routeMsg
+    </select>
 </mapper>

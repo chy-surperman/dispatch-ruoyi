@@ -38,7 +38,20 @@ public class DeviceRoutemsg extends BaseEntity
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String routeType;
 
-    public void setId(Long id) 
+
+    /** $column.columnComment */
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    private String company;
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

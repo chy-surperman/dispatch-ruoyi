@@ -1,5 +1,6 @@
 package com.hyt.device.caches;
 
+import com.hyt.device.domain.DeviceRoutemsg;
 import com.hyt.device.mapper.DeviceMapper;
 import com.hyt.device.mapper.DeviceRoutemsgMapper;
 import com.ruoyi.common.core.constant.CacheConstants;
@@ -8,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,7 +20,7 @@ import java.util.Set;
 public class RoutesNameCaches {
 
     @Autowired
-    private DeviceMapper deviceMapper;
+    private DeviceRoutemsgMapper deviceRoutemsgMapper;
 
 
     @Resource
@@ -26,18 +28,18 @@ public class RoutesNameCaches {
 
     @PostConstruct
     public void start(){
-        Set<String> companyNames = deviceMapper.selectCompanyName();
+        Set<String> companyNames = deviceRoutemsgMapper.selectCompanyName();
 
         for(String companyName:companyNames)
         {
-            Set<String> routeNames = deviceMapper.selectRouteNameByCompany(companyName);
-            redisTemplate.opsForHash().put(CacheConstants.ALL_ROUTENAMES,companyName,routeNames);
+            List<DeviceRoutemsg> deviceRoutemsgs = deviceRoutemsgMapper.selectRouteMsgNameByCompany(companyName);
+            redisTemplate.opsForHash().put(CacheConstants.ALL_ROUTENAMES,companyName,deviceRoutemsgs);
         }
     }
     
-    public Set<String> getRouteNames(String company){
+    public List<DeviceRoutemsg> getRouteNames(String company){
         Object value = redisTemplate.opsForHash().get(CacheConstants.ALL_ROUTENAMES, company);
-         return null == value? null: (Set<String>) value;
+         return null == value? null:  (List<DeviceRoutemsg>)value;
     }
 
 }
