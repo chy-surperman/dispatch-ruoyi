@@ -22,6 +22,7 @@ export default {
 };
 </script>
 <style scoped>
+@import "assets/styles/fonts/font.css";
 #app .theme-picker {
   display: none;
 }
