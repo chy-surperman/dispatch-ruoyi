@@ -245,6 +245,7 @@ public class FaultUrl extends BaseEntity
             .append("maintainer", getMaintainer())
             .append("consuming", getConsuming())
             .append("phone", getPhone())
+            .append("searchValue",getSearchValue())
             .toString();
     }
 }

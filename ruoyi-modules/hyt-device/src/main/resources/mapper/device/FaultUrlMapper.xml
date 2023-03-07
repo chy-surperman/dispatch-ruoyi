@@ -45,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="consuming != null  and consuming != ''"> and consuming = #{consuming}</if>
             <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
             <if test="mainUrl != null">mainUrl = #{mainUrl},</if>
+            <if test="searchValue != null">and selfNum like '%${searchValue}%' or routeName like '%${searchValue}%'</if>
         </where> order  by reportTime Desc
     </select>
     
