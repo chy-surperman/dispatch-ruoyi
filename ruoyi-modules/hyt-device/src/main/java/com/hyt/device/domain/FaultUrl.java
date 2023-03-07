@@ -78,7 +78,20 @@ public class FaultUrl extends BaseEntity
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String phone;
 
-    public void setId(Long id) 
+
+    /** $column.columnComment */
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    private String mainUrl;
+
+    public String getMainUrl() {
+        return mainUrl;
+    }
+
+    public void setMainUrl(String mainUrl) {
+        this.mainUrl = mainUrl;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

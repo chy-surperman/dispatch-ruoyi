@@ -1,5 +1,8 @@
 package com.ruoyi.file.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import com.ruoyi.system.api.domain.SysFile;
  * 
  * @author ruoyi
  */
+@Api("上传配置")
 @RestController
 public class SysFileController
 {
@@ -27,6 +31,7 @@ public class SysFileController
     /**
      * 文件上传请求
      */
+    @ApiOperation("文件上传")
     @PostMapping("upload")
     public R<SysFile> upload(MultipartFile file)
     {
