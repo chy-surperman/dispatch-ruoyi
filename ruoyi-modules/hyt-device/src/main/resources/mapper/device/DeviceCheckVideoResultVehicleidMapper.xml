@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.DeviceCheckVideoResultVehicleidMapper">
+    
+    <resultMap type="DeviceCheckVideoResultVehicleid" id="DeviceCheckVideoResultVehicleidResult">
+        <result property="id"    column="id"    />
+        <result property="deviceId"    column="deviceId"    />
+        <result property="cameraId"    column="cameraId"    />
+        <result property="channelId"    column="channelId"    />
+        <result property="hasVideo"    column="hasVideo"    />
+        <result property="createTime"    column="createTime"    />
+    </resultMap>
+
+
+    <resultMap type="DeviceCameraListStatus" id="DeviceCameraListStatusResult">
+        <result property="company"    column="company"    />
+        <result property="routeName"    column="routeName"    />
+        <result property="selfNum"    column="selfNum"    />
+        <result property="plateNum"    column="plateNum"    />
+        <result property="deviceId"    column="deviceId"    />
+        <result property="cameraId"    column="cameraId"    />
+        <result property="total"    column="total"    />
+        <result property="have"    column="you"    />
+        <result property="notHave"    column="wu"    />
+    </resultMap>
+
+
+    <sql id="selectDeviceCheckVideoResultVehicleidVo">
+        select id, deviceId, cameraId, channelId, hasVideo, createTime from device_check_video_result_vehicleId
+    </sql>
+
+    <select id="selectDeviceCheckVideoResultVehicleidList" parameterType="DeviceCheckVideoResultVehicleid" resultMap="DeviceCheckVideoResultVehicleidResult">
+        <include refid="selectDeviceCheckVideoResultVehicleidVo"/>
+        <where>  
+            <if test="deviceId != null  and deviceId != ''"> and deviceId = #{deviceId}</if>
+            <if test="cameraId != null  and cameraId != ''"> and cameraId = #{cameraId}</if>
+            <if test="channelId != null  and channelId != ''"> and channelId = #{channelId}</if>
+            <if test="hasVideo != null "> and hasVideo = #{hasVideo}</if>
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceCheckVideoResultVehicleidById" parameterType="Long" resultMap="DeviceCheckVideoResultVehicleidResult">
+        <include refid="selectDeviceCheckVideoResultVehicleidVo"/>
+        where id = #{id}
+    </select>
+
+
+
+    <select id="getDeviceCameraListStatus" parameterType="String" resultMap="DeviceCameraListStatusResult">
+        SELECT
+        d.company,d.routeName,d.selfNum,d.plateNum,v.deviceId,v.cameraId,COUNT(1) as total,SUM(IF(v.hasVideo=1,1,0)) AS you,SUM(IF(v.hasVideo=0,1,0)) as wu
+        FROM
+        device.device_check_video_result_vehicleId v LEFT  JOIN device d ON  v.deviceId=d.deviceId
+        WHERE
+        v.hasVideo!=2
+        and	v.createTime <![CDATA[ >= ]]> #{startTime}
+        AND v.createTime <![CDATA[ <= ]]> #{endTime}
+        GROUP BY
+        d.company,d.routeName,d.selfNum,d.plateNum,v.deviceId,v.cameraId HAVING wu>you
+    </select>
+
+        
+    <insert id="insertDeviceCheckVideoResultVehicleid" parameterType="DeviceCheckVideoResultVehicleid" useGeneratedKeys="true" keyProperty="id">
+        insert into device_check_video_result_vehicleId
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">deviceId,</if>
+            <if test="cameraId != null">cameraId,</if>
+            <if test="channelId != null">channelId,</if>
+            <if test="hasVideo != null">hasVideo,</if>
+            <if test="createTime != null">createTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="cameraId != null">#{cameraId},</if>
+            <if test="channelId != null">#{channelId},</if>
+            <if test="hasVideo != null">#{hasVideo},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceCheckVideoResultVehicleid" parameterType="DeviceCheckVideoResultVehicleid">
+        update device_check_video_result_vehicleId
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">deviceId = #{deviceId},</if>
+            <if test="cameraId != null">cameraId = #{cameraId},</if>
+            <if test="channelId != null">channelId = #{channelId},</if>
+            <if test="hasVideo != null">hasVideo = #{hasVideo},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceCheckVideoResultVehicleidById" parameterType="Long">
+        delete from device_check_video_result_vehicleId where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceCheckVideoResultVehicleidByIds" parameterType="String">
+        delete from device_check_video_result_vehicleId where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

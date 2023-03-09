@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.FaultUrlMapper">
+    
+    <resultMap type="FaultUrl" id="FaultUrlResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicleId"    />
+        <result property="routeName"    column="routeName"    />
+        <result property="driverId"    column="driverId"    />
+        <result property="reportTime"    column="reportTime"    />
+        <result property="selfNum"    column="selfNum"    />
+        <result property="type"    column="type"    />
+        <result property="url"    column="url"    />
+        <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
+        <result property="maintainDescription"    column="maintainDescription"    />
+        <result property="maintainTime"    column="maintainTime"    />
+        <result property="maintainer"    column="maintainer"    />
+        <result property="consuming"    column="consuming"    />
+        <result property="phone"    column="phone"    />
+        <result property="mainUrl"    column="mainUrl"    />
+    </resultMap>
+
+    <sql id="selectFaultUrlVo">
+        select id, vehicleId, routeName, driverId, reportTime, selfNum, type, url, description, status, maintainDescription, maintainTime, maintainer, consuming, phone, mainUrl from faultUrl
+    </sql>
+
+    <select id="selectFaultUrlList" parameterType="FaultUrl" resultMap="FaultUrlResult">
+        <include refid="selectFaultUrlVo"/>
+        <where>  
+            <if test="vehicleId != null "> and vehicleId = #{vehicleId}</if>
+            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
+            <if test="driverId != null "> and driverId = #{driverId}</if>
+            <if test="reportTime != null "> and reportTime = #{reportTime}</if>
+            <if test="selfNum != null  and selfNum != ''"> and selfNum = #{selfNum}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="maintainDescription != null  and maintainDescription != ''"> and maintainDescription = #{maintainDescription}</if>
+            <if test="maintainTime != null "> and maintainTime = #{maintainTime}</if>
+            <if test="maintainer != null  and maintainer != ''"> and maintainer = #{maintainer}</if>
+            <if test="consuming != null  and consuming != ''"> and consuming = #{consuming}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="mainUrl != null">mainUrl = #{mainUrl},</if>
+            <if test="searchValue != null">and selfNum like '%${searchValue}%' or routeName like '%${searchValue}%'</if>
+        </where> order  by reportTime Desc
+    </select>
+    
+    <select id="selectFaultUrlById" parameterType="Long" resultMap="FaultUrlResult">
+        <include refid="selectFaultUrlVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFaultUrl" parameterType="FaultUrl" useGeneratedKeys="true" keyProperty="id">
+        insert into faultUrl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">vehicleId,</if>
+            <if test="routeName != null">routeName,</if>
+            <if test="driverId != null">driverId,</if>
+            <if test="reportTime != null">reportTime,</if>
+            <if test="selfNum != null">selfNum,</if>
+            <if test="type != null">type,</if>
+            <if test="url != null">url,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+            <if test="maintainDescription != null">maintainDescription,</if>
+            <if test="maintainTime != null">maintainTime,</if>
+            <if test="maintainer != null">maintainer,</if>
+            <if test="consuming != null">consuming,</if>
+            <if test="phone != null">phone,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">#{vehicleId},</if>
+            <if test="routeName != null">#{routeName},</if>
+            <if test="driverId != null">#{driverId},</if>
+            <if test="reportTime != null">#{reportTime},</if>
+            <if test="selfNum != null">#{selfNum},</if>
+            <if test="type != null">#{type},</if>
+            <if test="url != null">#{url},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+            <if test="maintainDescription != null">#{maintainDescription},</if>
+            <if test="maintainTime != null">#{maintainTime},</if>
+            <if test="maintainer != null">#{maintainer},</if>
+            <if test="consuming != null">#{consuming},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="mainUrl != null">mainUrl = #{mainUrl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFaultUrl" parameterType="FaultUrl">
+        update faultUrl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null">vehicleId = #{vehicleId},</if>
+            <if test="routeName != null">routeName = #{routeName},</if>
+            <if test="driverId != null">driverId = #{driverId},</if>
+            <if test="reportTime != null">reportTime = #{reportTime},</if>
+            <if test="selfNum != null">selfNum = #{selfNum},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="maintainDescription != null">maintainDescription = #{maintainDescription},</if>
+            <if test="maintainTime != null">maintainTime = #{maintainTime},</if>
+            <if test="maintainer != null">maintainer = #{maintainer},</if>
+            <if test="consuming != null">consuming = #{consuming},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="mainUrl != null">mainUrl = #{mainUrl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFaultUrlById" parameterType="Long">
+        delete from faultUrl where id = #{id}
+    </delete>
+
+    <delete id="deleteFaultUrlByIds" parameterType="String">
+        delete from faultUrl where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

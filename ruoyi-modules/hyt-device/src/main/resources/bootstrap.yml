@@ -17,9 +17,3 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   main:
     show-banner: false
-mybatis:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  type-aliases-package: com.hyt.device.domain
-  mapperLocations: classpath:mapper/**/*.xml
-

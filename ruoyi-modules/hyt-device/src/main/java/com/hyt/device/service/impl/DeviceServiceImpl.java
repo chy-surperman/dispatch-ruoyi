@@ -1,6 +1,9 @@
 package com.hyt.device.service.impl;
 
 import java.util.List;
+
+import com.github.pagehelper.PageHelper;
+import com.ruoyi.common.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hyt.device.mapper.DeviceMapper;
@@ -44,8 +47,8 @@ public class DeviceServiceImpl implements IDeviceService
     }
 
     @Override
-    public List<Device> selectDeviceListAndParam(String routeName,String company, int pageNum, int pageSize) {
-        return deviceMapper.selectDeviceListAndPageNum(routeName, company, Integer.valueOf(pageNum), Integer.valueOf(pageSize));
+    public List<Device> selectDeviceListAndParam(String routeName,String company) {
+        return deviceMapper.selectDeviceListAndPageNum(routeName, company);
     }
 
     /**

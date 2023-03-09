@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.DeviceNotifyStatusMapper">
+    
+    <resultMap type="DeviceNotifyStatus" id="DeviceNotifyStatusResult">
+        <result property="id"    column="id"    />
+        <result property="notifyId"    column="notifyId"    />
+        <result property="deviceId"    column="deviceId"    />
+        <result property="type"    column="type"    />
+        <result property="content"    column="content"    />
+        <result property="notifyTime"    column="notifyTime"    />
+        <result property="getTime"    column="getTime"    />
+        <result property="confirmTime"    column="confirmTime"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectDeviceNotifyStatusVo">
+        select id, notifyId, deviceId, type, content, notifyTime, getTime, confirmTime, status from device_notify_status
+    </sql>
+
+    <select id="selectDeviceNotifyStatusList" parameterType="DeviceNotifyStatus" resultMap="DeviceNotifyStatusResult">
+        <include refid="selectDeviceNotifyStatusVo"/>
+        <where>  
+            <if test="notifyId != null  and notifyId != ''"> and notifyId = #{notifyId}</if>
+            <if test="deviceId != null  and deviceId != ''"> and deviceId = #{deviceId}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="notifyTime != null "> and notifyTime = #{notifyTime}</if>
+            <if test="getTime != null "> and getTime = #{getTime}</if>
+            <if test="confirmTime != null "> and confirmTime = #{confirmTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceNotifyStatusById" parameterType="Long" resultMap="DeviceNotifyStatusResult">
+        <include refid="selectDeviceNotifyStatusVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceNotifyStatus" parameterType="DeviceNotifyStatus" useGeneratedKeys="true" keyProperty="id">
+        insert into device_notify_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="notifyId != null">notifyId,</if>
+            <if test="deviceId != null">deviceId,</if>
+            <if test="type != null">type,</if>
+            <if test="content != null">content,</if>
+            <if test="notifyTime != null">notifyTime,</if>
+            <if test="getTime != null">getTime,</if>
+            <if test="confirmTime != null">confirmTime,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="notifyId != null">#{notifyId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="content != null">#{content},</if>
+            <if test="notifyTime != null">#{notifyTime},</if>
+            <if test="getTime != null">#{getTime},</if>
+            <if test="confirmTime != null">#{confirmTime},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceNotifyStatus" parameterType="DeviceNotifyStatus">
+        update device_notify_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="notifyId != null">notifyId = #{notifyId},</if>
+            <if test="deviceId != null">deviceId = #{deviceId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="notifyTime != null">notifyTime = #{notifyTime},</if>
+            <if test="getTime != null">getTime = #{getTime},</if>
+            <if test="confirmTime != null">confirmTime = #{confirmTime},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceNotifyStatusById" parameterType="Long">
+        delete from device_notify_status where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceNotifyStatusByIds" parameterType="String">
+        delete from device_notify_status where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

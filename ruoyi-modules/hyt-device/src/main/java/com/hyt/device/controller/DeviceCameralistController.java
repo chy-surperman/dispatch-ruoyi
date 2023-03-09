@@ -3,6 +3,8 @@ package com.hyt.device.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +30,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  * @author chy
  * @date 2023-02-24
  */
+@Api("摄像头编号列表")
 @RestController
 @RequestMapping("/cameraList")
 public class DeviceCameralistController extends BaseController
@@ -36,7 +39,7 @@ public class DeviceCameralistController extends BaseController
     private IDeviceCameralistService deviceCameralistService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询【主机列表】列表
      */
     @RequiresPermissions("device:cameraList:list")
     @GetMapping("/list")
