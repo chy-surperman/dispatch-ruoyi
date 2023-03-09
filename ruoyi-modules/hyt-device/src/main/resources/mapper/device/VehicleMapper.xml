@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyt.device.mapper.VehicleMapper">
+    
+    <resultMap type="Vehicle" id="VehicleResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicleId"    />
+        <result property="plateNum"    column="plateNum"    />
+        <result property="plateColor"    column="plateColor"    />
+        <result property="routeName"    column="routeName"    />
+        <result property="starttag"    column="starttag"    />
+        <result property="driverId"    column="driverId"    />
+        <result property="driverName"    column="driverName"    />
+        <result property="heartTime"    column="heartTime"    />
+        <result property="status"    column="status"    />
+        <result property="network"    column="network"    />
+        <result property="terminal"    column="terminal"    />
+        <result property="selfNum"    column="selfNum"    />
+        <result property="config"    column="config"    />
+        <result property="restart"    column="restart"    />
+        <result property="vehicleFlag"    column="vehicleFlag"    />
+        <result property="rebootFlag"    column="rebootFlag"    />
+        <result property="reportConfig"    column="reportConfig"    />
+        <result property="reportNetwork"    column="reportNetwork"    />
+        <result property="workStatus"    column="workStatus"    />
+        <result property="version"    column="version"    />
+        <result property="versionCode"    column="versionCode"    />
+        <result property="runningStatus"    column="runningStatus"    />
+        <result property="arrivalTime"    column="arrivalTime"    />
+        <result property="swipeCode"    column="swipeCode"    />
+        <result property="isSupportOilPlatform"    column="isSupportOilPlatform"    />
+        <result property="isSupportHxplatform"    column="isSupportHxplatform"    />
+        <result property="isSupportCsxplatform"    column="isSupportCsxplatform"    />
+        <result property="hxDeviceId"    column="hxDeviceId"    />
+        <result property="reportOilCompany"    column="reportOilCompany"    />
+    </resultMap>
+
+    <sql id="selectVehicleVo">
+        select id, vehicleId, plateNum, plateColor, routeName, starttag, driverId, driverName, heartTime, status, network, terminal, selfNum, config, restart, vehicleFlag, rebootFlag, reportConfig, reportNetwork, workStatus, version, versionCode, runningStatus, arrivalTime, swipeCode, isSupportOilPlatform, isSupportHxplatform, isSupportCsxplatform, hxDeviceId, reportOilCompany from vehicle
+    </sql>
+
+    <select id="selectVehicleList" parameterType="Vehicle" resultMap="VehicleResult">
+        <include refid="selectVehicleVo"/>
+        <where>  
+            <if test="vehicleId != null  and vehicleId != ''"> and vehicleId = #{vehicleId}</if>
+            <if test="plateNum != null  and plateNum != ''"> and plateNum = #{plateNum}</if>
+            <if test="plateColor != null "> and plateColor = #{plateColor}</if>
+            <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
+            <if test="starttag != null  and starttag != ''"> and starttag = #{starttag}</if>
+            <if test="driverId != null  and driverId != ''"> and driverId = #{driverId}</if>
+            <if test="driverName != null  and driverName != ''"> and driverName like concat('%', #{driverName}, '%')</if>
+            <if test="heartTime != null "> and heartTime = #{heartTime}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="network != null  and network != ''"> and network = #{network}</if>
+            <if test="terminal != null  and terminal != ''"> and terminal = #{terminal}</if>
+            <if test="selfNum != null  and selfNum != ''"> and selfNum = #{selfNum}</if>
+            <if test="config != null "> and config = #{config}</if>
+            <if test="restart != null "> and restart = #{restart}</if>
+            <if test="vehicleFlag != null "> and vehicleFlag = #{vehicleFlag}</if>
+            <if test="rebootFlag != null "> and rebootFlag = #{rebootFlag}</if>
+            <if test="reportConfig != null "> and reportConfig = #{reportConfig}</if>
+            <if test="reportNetwork != null "> and reportNetwork = #{reportNetwork}</if>
+            <if test="workStatus != null "> and workStatus = #{workStatus}</if>
+            <if test="version != null  and version != ''"> and version = #{version}</if>
+            <if test="versionCode != null "> and versionCode = #{versionCode}</if>
+            <if test="runningStatus != null  and runningStatus != ''"> and runningStatus = #{runningStatus}</if>
+            <if test="arrivalTime != null "> and arrivalTime = #{arrivalTime}</if>
+            <if test="swipeCode != null  and swipeCode != ''"> and swipeCode = #{swipeCode}</if>
+            <if test="isSupportOilPlatform != null "> and isSupportOilPlatform = #{isSupportOilPlatform}</if>
+            <if test="isSupportHxplatform != null "> and isSupportHxplatform = #{isSupportHxplatform}</if>
+            <if test="isSupportCsxplatform != null "> and isSupportCsxplatform = #{isSupportCsxplatform}</if>
+            <if test="hxDeviceId != null  and hxDeviceId != ''"> and hxDeviceId = #{hxDeviceId}</if>
+            <if test="reportOilCompany != null  and reportOilCompany != ''"> and reportOilCompany = #{reportOilCompany}</if>
+        </where>
+    </select>
+    
+    <select id="selectVehicleById" parameterType="Long" resultMap="VehicleResult">
+        <include refid="selectVehicleVo"/>
+        where id = #{id}
+    </select>
+
+
+
+    <select id="selectVehicleByRouteName" parameterType="String" resultMap="VehicleResult">
+        <include refid="selectVehicleVo"/>
+        where routeName=#{routeName}
+    </select>
+
+        
+    <insert id="insertVehicle" parameterType="Vehicle" useGeneratedKeys="true" keyProperty="id">
+        insert into vehicle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">vehicleId,</if>
+            <if test="plateNum != null">plateNum,</if>
+            <if test="plateColor != null">plateColor,</if>
+            <if test="routeName != null">routeName,</if>
+            <if test="starttag != null">starttag,</if>
+            <if test="driverId != null">driverId,</if>
+            <if test="driverName != null">driverName,</if>
+            <if test="heartTime != null">heartTime,</if>
+            <if test="status != null">status,</if>
+            <if test="network != null">network,</if>
+            <if test="terminal != null">terminal,</if>
+            <if test="selfNum != null">selfNum,</if>
+            <if test="config != null">config,</if>
+            <if test="restart != null">restart,</if>
+            <if test="vehicleFlag != null">vehicleFlag,</if>
+            <if test="rebootFlag != null">rebootFlag,</if>
+            <if test="reportConfig != null">reportConfig,</if>
+            <if test="reportNetwork != null">reportNetwork,</if>
+            <if test="workStatus != null">workStatus,</if>
+            <if test="version != null">version,</if>
+            <if test="versionCode != null">versionCode,</if>
+            <if test="runningStatus != null">runningStatus,</if>
+            <if test="arrivalTime != null">arrivalTime,</if>
+            <if test="swipeCode != null">swipeCode,</if>
+            <if test="isSupportOilPlatform != null">isSupportOilPlatform,</if>
+            <if test="isSupportHxplatform != null">isSupportHxplatform,</if>
+            <if test="isSupportCsxplatform != null">isSupportCsxplatform,</if>
+            <if test="hxDeviceId != null">hxDeviceId,</if>
+            <if test="reportOilCompany != null">reportOilCompany,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">#{vehicleId},</if>
+            <if test="plateNum != null">#{plateNum},</if>
+            <if test="plateColor != null">#{plateColor},</if>
+            <if test="routeName != null">#{routeName},</if>
+            <if test="starttag != null">#{starttag},</if>
+            <if test="driverId != null">#{driverId},</if>
+            <if test="driverName != null">#{driverName},</if>
+            <if test="heartTime != null">#{heartTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="network != null">#{network},</if>
+            <if test="terminal != null">#{terminal},</if>
+            <if test="selfNum != null">#{selfNum},</if>
+            <if test="config != null">#{config},</if>
+            <if test="restart != null">#{restart},</if>
+            <if test="vehicleFlag != null">#{vehicleFlag},</if>
+            <if test="rebootFlag != null">#{rebootFlag},</if>
+            <if test="reportConfig != null">#{reportConfig},</if>
+            <if test="reportNetwork != null">#{reportNetwork},</if>
+            <if test="workStatus != null">#{workStatus},</if>
+            <if test="version != null">#{version},</if>
+            <if test="versionCode != null">#{versionCode},</if>
+            <if test="runningStatus != null">#{runningStatus},</if>
+            <if test="arrivalTime != null">#{arrivalTime},</if>
+            <if test="swipeCode != null">#{swipeCode},</if>
+            <if test="isSupportOilPlatform != null">#{isSupportOilPlatform},</if>
+            <if test="isSupportHxplatform != null">#{isSupportHxplatform},</if>
+            <if test="isSupportCsxplatform != null">#{isSupportCsxplatform},</if>
+            <if test="hxDeviceId != null">#{hxDeviceId},</if>
+            <if test="reportOilCompany != null">#{reportOilCompany},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVehicle" parameterType="Vehicle">
+        update vehicle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null">vehicleId = #{vehicleId},</if>
+            <if test="plateNum != null">plateNum = #{plateNum},</if>
+            <if test="plateColor != null">plateColor = #{plateColor},</if>
+            <if test="routeName != null">routeName = #{routeName},</if>
+            <if test="starttag != null">starttag = #{starttag},</if>
+            <if test="driverId != null">driverId = #{driverId},</if>
+            <if test="driverName != null">driverName = #{driverName},</if>
+            <if test="heartTime != null">heartTime = #{heartTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="network != null">network = #{network},</if>
+            <if test="terminal != null">terminal = #{terminal},</if>
+            <if test="selfNum != null">selfNum = #{selfNum},</if>
+            <if test="config != null">config = #{config},</if>
+            <if test="restart != null">restart = #{restart},</if>
+            <if test="vehicleFlag != null">vehicleFlag = #{vehicleFlag},</if>
+            <if test="rebootFlag != null">rebootFlag = #{rebootFlag},</if>
+            <if test="reportConfig != null">reportConfig = #{reportConfig},</if>
+            <if test="reportNetwork != null">reportNetwork = #{reportNetwork},</if>
+            <if test="workStatus != null">workStatus = #{workStatus},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="versionCode != null">versionCode = #{versionCode},</if>
+            <if test="runningStatus != null">runningStatus = #{runningStatus},</if>
+            <if test="arrivalTime != null">arrivalTime = #{arrivalTime},</if>
+            <if test="swipeCode != null">swipeCode = #{swipeCode},</if>
+            <if test="isSupportOilPlatform != null">isSupportOilPlatform = #{isSupportOilPlatform},</if>
+            <if test="isSupportHxplatform != null">isSupportHxplatform = #{isSupportHxplatform},</if>
+            <if test="isSupportCsxplatform != null">isSupportCsxplatform = #{isSupportCsxplatform},</if>
+            <if test="hxDeviceId != null">hxDeviceId = #{hxDeviceId},</if>
+            <if test="reportOilCompany != null">reportOilCompany = #{reportOilCompany},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteVehicleById" parameterType="Long">
+        delete from vehicle where id = #{id}
+    </delete>
+
+    <delete id="deleteVehicleByIds" parameterType="String">
+        delete from vehicle where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

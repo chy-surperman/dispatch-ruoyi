@@ -64,4 +64,10 @@ public class CacheConstants
      * 线路名
      */
     public static  final String ALL_ROUTENAMES ="all_routeNames";
+
+
+    /**
+     * 线路名
+     */
+    public static  final String ALL_VEHICLES ="all_vehicles";
 }

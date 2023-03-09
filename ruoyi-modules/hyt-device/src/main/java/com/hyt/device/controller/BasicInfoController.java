@@ -2,7 +2,9 @@ package com.hyt.device.controller;
 
 import com.hyt.device.caches.CompanyCache;
 import com.hyt.device.caches.RoutesNameCaches;
+import com.hyt.device.caches.VehicleCaches;
 import com.hyt.device.domain.DeviceRoutemsg;
+import com.hyt.device.domain.Vehicle;
 import com.hyt.device.service.IDeviceRoutemsgService;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -30,6 +32,10 @@ public class BasicInfoController {
 
     @Autowired
     public RoutesNameCaches routesNameCaches;
+
+
+    @Autowired
+    public VehicleCaches vehicleCaches;
     
     @Autowired
     public IDeviceRoutemsgService deviceRoutemsgService;
@@ -66,5 +72,17 @@ public class BasicInfoController {
             return R.fail("线路名获取失败");
         }
         return R.ok(deviceRoutemsgs,"查询数据成功");
+    }
+
+
+
+    @ApiOperation("获取所有车辆列表")
+    @RequestMapping("/vehicesByRouteName")
+    public R getAllVehicles(String routeName){
+        List<Vehicle> vehicles = vehicleCaches.getVehicles(routeName);
+        if (StringUtils.isEmpty(vehicles)){
+            return R.fail("线路名获取失败");
+        }
+        return R.ok(vehicles,"查询数据成功");
     }
 }
