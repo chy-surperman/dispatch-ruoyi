@@ -43,14 +43,27 @@ export function Breakdown(id) {
 }
 
 //故障表单提交
-export function f() {
-
+export function SubmitForm(query) {
+  return request({
+    url:"device/faultUrl",
+    method:"post",
+    data:query
+  })
 }
 
 //删除故障
-export function deleteBreakdown(ids) {
+export function DeleteBreakdown(ids) {
   return request({
-    url:"device/faultUrl"+ids,
+    url:"device/faultUrl/"+ids,
     method:"delete"
+  })
+}
+
+//查询自编号
+export function SelfNum(query) {
+  return request({
+    url:"device/common/vehicesByRouteName",
+    method:"get",
+    params:query
   })
 }

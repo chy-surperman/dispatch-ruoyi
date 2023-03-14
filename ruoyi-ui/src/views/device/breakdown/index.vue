@@ -10,17 +10,17 @@
       </div>
 <!--      功能栏-->
       <div class="operation-container">
+<!--        <el-button-->
+<!--          v-if="isDelete == 0"-->
+<!--          type="danger"-->
+<!--          size="small"-->
+<!--          icon="el-icon-delete"-->
+<!--          :disabled="articleIds.length == 0"-->
+<!--          @click="updateIsDelete = true">-->
+<!--          批量删除-->
+<!--        </el-button>-->
         <el-button
-          v-if="isDelete == 0"
-          type="danger"
-          size="small"
-          icon="el-icon-delete"
-          :disabled="articleIds.length == 0"
-          @click="updateIsDelete = true">
-          批量删除
-        </el-button>
-        <el-button
-          v-else
+
           type="danger"
           size="small"
           icon="el-icon-delete"
@@ -43,16 +43,6 @@
           @click="dialogForFrom=true">
           新增故障
         </el-button>
-
-<!--        <el-upload-->
-<!--          action="/api/admin/articles/import"-->
-<!--          multiple-->
-<!--          :limit="9"-->
-<!--          :show-file-list="false"-->
-<!--          :headers="uploadHeaders"-->
-<!--          :on-success="uploadArticle">-->
-<!--          <el-button type="primary" size="small" icon="el-icon-upload"> 批量导入 </el-button>-->
-<!--        </el-upload>-->
 
 <!--        搜索栏-->
         <div style="margin-left: auto">
@@ -111,9 +101,6 @@
                 ? scope.row.url
                 : 'https://p4.itc.cn/images01/20200814/0e262c44bd9c4c8fb7bd9e13c0683447.jpeg'
             "></el-image>
-<!--            <i v-if="scope.row.status == 1" class="iconfont el-icon-mygongkai article-status-icon" />-->
-<!--            <i v-if="scope.row.status == 2" class="iconfont el-icon-mymima article-status-icon" />-->
-<!--            <i v-if="scope.row.status == 3" class="iconfont el-icon-mycaogaoxiang article-status-icon" />-->
           </template>
         </el-table-column>
 
@@ -149,9 +136,6 @@
                 ? scope.row.mainUrl
                 : 'https://p4.itc.cn/images01/20200814/0e262c44bd9c4c8fb7bd9e13c0683447.jpeg'"
               />
-<!--            <i v-if="scope.row.status == 1" class="iconfont el-icon-mygongkai article-status-icon" />-->
-<!--            <i v-if="scope.row.status == 2" class="iconfont el-icon-mymima article-status-icon" />-->
-<!--            <i v-if="scope.row.status == 3" class="iconfont el-icon-mycaogaoxiang article-status-icon" />-->
           </template>
         </el-table-column>
 
@@ -213,7 +197,7 @@
             <el-popconfirm
               title="确定删除吗？"
               style="margin-left: 10px"
-              @confirm="updateArticleDelete(scope.row.id)"
+              @confirm="deleteBreakdown(scope.row.id)"
               >
               <el-button size="mini" type="danger" slot="reference"> 删除 </el-button>
             </el-popconfirm>
@@ -247,20 +231,20 @@
         layout="total, sizes, prev, pager, next, jumper" />
 
 <!--      确认弹窗-->
-      <el-dialog :visible.sync="updateIsDelete" width="30%">
-        <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
-        <div style="font-size: 1rem">是否删除选中项？</div>
-        <div slot="footer">
-          <el-button @click="updateIsDelete = false">取 消</el-button>
-          <el-button type="primary" @click="updateArticleDelete(null)"> 确 定 </el-button>
-        </div>
-      </el-dialog>
-      <el-dialog :visible.sync="remove" width="30%">
-        <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
-        <div style="font-size: 1rem">是否彻底删除选中项？</div>
+<!--      <el-dialog :visible.sync="updateIsDelete" width="30%">-->
+<!--        <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>-->
+<!--        <div style="font-size: 1rem">是否删除选中项？</div>-->
+<!--        <div slot="footer">-->
+<!--          <el-button @click="updateIsDelete = false">取 消</el-button>-->
+<!--          <el-button type="primary" @click="updateArticleDelete(null)"> 确 定 </el-button>-->
+<!--        </div>-->
+<!--      </el-dialog>-->
+      <el-dialog :visible.sync="remove" width="25%">
+        <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" /><span style="font-family: maoken;color: brown">注意</span></div>
+        <div style="font-size: 1rem;font-family: maoken">是否彻底删除选中项？</div>
         <div slot="footer">
           <el-button @click="remove = false">取 消</el-button>
-          <el-button type="primary" @click="deleteArticles(null)"> 确 定 </el-button>
+          <el-button type="primary" @click="deleteBreakdown(null)"> 确 定 </el-button>
         </div>
       </el-dialog>
       <el-dialog :visible.sync="isExport" width="30%">
@@ -298,17 +282,21 @@
                 <el-option v-for="item in type" :label="item.name" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="线路名" prop="route">
-              <el-col :span="8" prop="route">
+            <el-form-item label="线路名" required>
+              <el-col :span="8">
+                <el-form-item prop="routeName">
                 <el-select placeholder="选择线路名" v-model="form.routeName" filterable style="width: 100%;">
                   <el-option v-for="item in routeNames" :value="item.routeName"></el-option>
                 </el-select>
+                </el-form-item>
               </el-col>
               <el-col class="line" :span="3" style="margin-left: 0.5rem">-自编号</el-col>
               <el-col :span="8">
+                <el-form-item prop="selfNum">
                 <el-select placeholder="选择自编号" v-model="form.selfNum" filterable style="width: 100%;">
                   <el-option v-for="item in selfNums" :value="item.selfNum"></el-option>
                 </el-select>
+                </el-form-item>
               </el-col>
             </el-form-item>
             <el-form-item label="司机手机">
@@ -367,11 +355,11 @@
 
 <script>
 import {
-  Breakdown,
+  Breakdown, DeleteBreakdown,
   ListBreakdown,
   ListCompanyName,
   ListRouteName,
-  ListRouteNameForCompany,
+  ListRouteNameForCompany, SelfNum, SubmitForm,
 } from "@/api/device/breakdown"
 import {getToken} from "@/utils/auth"
 import ImageUpload from "@/components/ImageUpload/index"
@@ -412,7 +400,7 @@ export default {
         createTime: null,
         description: null,
         driverId: 0,
-        id: 0,
+        id: null,
         mainUrl: null,
         maintainDescription: null,
         maintainTime: null,
@@ -432,9 +420,9 @@ export default {
       },
       imageList:[],
       articleIds: [],
-      isDelete: 0,
+
       isExport: false,
-      formLabelWidth:"5rem",
+
       type:[
         {
           value: 0,
@@ -450,17 +438,18 @@ export default {
         }
       ],
       formRules:{
-        route: [
-          { required: true, message: '请选择线路名和自编号', trigger: 'blur' }
+        routeName: [
+          { required: true, message: '请选择线路名', trigger: 'blur' }
+        ],
+        selfNum: [
+          { required: true, message: '请选择自编号', trigger: 'blur' }
         ],
       },
       timer: null,
       formChange:0,
-      // formContextCopy:null,
-
+      remove: false,
 
       // updateIsDelete: false,
-      // remove: false,
       // articles: [],
       // categories: [],
       // tags: [],
@@ -628,7 +617,7 @@ export default {
         this.count = response.total
         this.loading=false
       }).catch(error => {
-        if(this.flushes<=1){
+        if(this.flushes<=2){
           this.$message('正在重试。。。');
           setTimeout(function (){this.listBreakdown()},2000)
           this.flushes++
@@ -670,6 +659,17 @@ export default {
         this.$refs.breakdownImg.showViewer = true
       }else {
         this.$refs.maintainImg.showViewer = true
+      }
+    },
+    //查询自编号
+    selfNum(query){
+      if(query!=null){
+        let routeName={
+          routeName:query
+        }
+        SelfNum(routeName).then(response => {
+          this.selfNums=response.data
+        })
       }
     },
     //故障图片上传回调new
@@ -715,7 +715,6 @@ export default {
     },
     //关闭抽屉后回调new
     closedForm(){
-      this.form=[]
       this.$refs.form.resetFields()
       this.formChange=0
     },
@@ -723,31 +722,42 @@ export default {
     onSubmit(){
       this.$refs.form.validate((valid) => {
         if (valid) {
-          alert('submit!');
+          console.log(this.form)
+          SubmitForm(this.form).then(response => {
+            console.log(response.data)
+            this.$message({
+              message: '保存成功',
+              type: 'success'
+            });
+            this.dialogForFrom=false
+            this.listBreakdown()
+          }).catch(error => {
+            this.$message.error('保存失败');
+            this.listBreakdown()
+          })
         } else {
           console.log('error submit!!');
           return false;
         }
       });
     },
-    // isEqual(obj1, obj2) {
-    //   // 1.判断是不是引用类型，不是引用
-    //   if (!typeof (obj1)=="object" || !typeof (obj2)=="object") {
-    //     return obj1 === obj2;
-    //   }
-    //   // 2.比较是否为同一个内存地址
-    //   if (obj1 === obj2) return true;
-    //   // 3.比较 key 的数量
-    //   const obj1KeysLength = Object.keys(obj1).length;
-    //   const obj2KeysLength = Object.keys(obj2).length;
-    //   if (obj1KeysLength !== obj2KeysLength) return false;
-    //   // 4.比较 value 的值
-    //   for (let key in obj1) {
-    //     const result = this.isEqual(obj1[key], obj2[key]);
-    //     if(!result) return false;
-    //   }
-    //   return true;
-    // }
+    //删除故障
+    deleteBreakdown(id){
+      if(id!=null){
+        DeleteBreakdown(id).then(response => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.listBreakdown()
+        }).catch(error => {
+          this.$message.error('删除失败');
+          this.listBreakdown()
+        })
+      }else {
+
+      }
+    }
   },
 
 
@@ -764,25 +774,9 @@ export default {
       },
       deep:true
     },
-    // formContextChange:{
-    //   handler(n,o){
-    //     if(n && this.isEqual(n,o)){
-    //       this.formChange=0
-    //     }
-    //   },
-    //   deep:true
-    // }
-    // routeName(){
-    //   if(this.routeName===""){
-    //     this.companyName=""
-    //   }
-    //   else {
-    //     for(let item of this.routeNames){
-    //       if(this.routeName===item.routeName)
-    //         this.companyName=item.groupName
-    //     }
-    //   }
-    // }
+    'form.routeName'(){
+      this.selfNum(this.form.routeName)
+    }
   },
   computed: {
     //故障类型标签样式和标签名new
@@ -816,10 +810,6 @@ export default {
         return this.breakdownStatus == status ? 'active-status' : 'status'
       }
     },
-    // formContextChange(){
-    //   console.log("-----"+JSON.parse(JSON.stringify(this.formContextCopy)))
-    //   return JSON.parse(JSON.stringify(this.formContextCopy))
-    // }
   }
 }
 </script>
@@ -895,13 +885,6 @@ export default {
   color: rgb(3,109,107);
   font-size: 18px;
   font-family: maoken;
-}
-.drawer__content{
-
-}
-.drawer__footer{
-  float: right;
-  margin-right: 6rem;
 }
 </style>
 
