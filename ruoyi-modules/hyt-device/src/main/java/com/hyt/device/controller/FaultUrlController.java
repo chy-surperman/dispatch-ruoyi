@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,9 @@ public class FaultUrlController extends BaseController
     @ApiOperation("修改【故障】")
     public AjaxResult edit(@RequestBody FaultUrl faultUrl)
     {
+        if (StringUtils.isEmpty(faultUrl.getId().toString())) {
+            return  toAjax(faultUrlService.insertFaultUrl(faultUrl));
+        }
         return toAjax(faultUrlService.updateFaultUrl(faultUrl));
     }
 
