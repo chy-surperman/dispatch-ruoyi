@@ -46,3 +46,11 @@ export function Breakdown(id) {
 export function f() {
 
 }
+
+//删除故障
+export function deleteBreakdown(ids) {
+  return request({
+    url:"device/faultUrl"+ids,
+    method:"delete"
+  })
+}
