@@ -101,6 +101,7 @@
           <template slot-scope="scope">
             <el-image
               class="article-cover"
+              fit="cover"
               ref="breakdownImg"
               :preview-src-list="imageList"
               @click.native="doPreviewImg(scope.row.url,0)"
@@ -126,7 +127,7 @@
         <el-table-column prop="description" label="故障描述" align="center">
           <template slot-scope="scope">
             {{scope.row.description}}
-            <div v-if="scope.row.description===''||scope.row.description==null">
+            <div v-if="scope.row.description===''||scope.row.description==null" style="font-size: 20px">
               <el-tooltip content="未上传" placement="top" effect="light">
                 <i class="el-icon-document-delete"></i>
               </el-tooltip>
@@ -138,6 +139,7 @@
           <template slot-scope="scope">
             <el-image
               class="article-cover"
+              fit="cover"
               ref="maintainImg"
               :preview-src-list="imageList"
               @click.native="doPreviewImg(scope.row.mainUrl,1)"
@@ -160,7 +162,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="selfNum,routeName" label="线路/自编号" width="110" align="center">
+        <el-table-column prop="selfNum,routeName" label="线路/自编号" width="150" align="center">
           <template slot-scope="scope">
             {{scope.row.routeName}}/{{scope.row.selfNum}}
           </template>
@@ -168,7 +170,7 @@
         <el-table-column prop="maintainDescription" label="维护说明" width="170" align="center">
           <template slot-scope="scope">
             {{scope.row.maintainDescription}}
-            <div v-if="scope.row.maintainDescription===''||scope.row.maintainDescription==null">
+            <div v-if="scope.row.maintainDescription===''||scope.row.maintainDescription==null" style="font-size: 20px">
               <el-tooltip content="暂无" placement="top" effect="light">
                 <i class="el-icon-document-delete"></i>
               </el-tooltip>
@@ -296,15 +298,15 @@
                 <el-option v-for="item in type" :label="item.name" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="线路名" prop="route_self">
-              <el-col :span="8">
-                <el-select placeholder="选择线路名" v-model="form.routeName" style="width: 100%;">
+            <el-form-item label="线路名" prop="route">
+              <el-col :span="8" prop="route">
+                <el-select placeholder="选择线路名" v-model="form.routeName" filterable style="width: 100%;">
                   <el-option v-for="item in routeNames" :value="item.routeName"></el-option>
                 </el-select>
               </el-col>
               <el-col class="line" :span="3" style="margin-left: 0.5rem">-自编号</el-col>
               <el-col :span="8">
-                <el-select placeholder="选择自编号" v-model="form.selfNum" style="width: 100%;">
+                <el-select placeholder="选择自编号" v-model="form.selfNum" filterable style="width: 100%;">
                   <el-option v-for="item in selfNums" :value="item.selfNum"></el-option>
                 </el-select>
               </el-col>
@@ -322,7 +324,7 @@
             </el-form-item>
             <el-form-item label="维护状态">
               <el-tooltip :content="form.status?'已维护':'未维护'" placement="right" effect="light">
-                <el-switch v-model="form.status"></el-switch>
+                <el-switch v-model="form.status>0"></el-switch>
               </el-tooltip>
             </el-form-item>
             <el-form-item label="维护时间">
@@ -350,7 +352,7 @@
                 style="width: 23rem"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit" :loading="loadingForFrom">{{loadingForFrom ? '保存中' : '保存'}}</el-button>
+              <el-button type="primary" @click="onSubmit()" :loading="loadingForFrom">{{loadingForFrom ? '保存中' : '保存'}}</el-button>
               <el-button @click="cancelForm">取消</el-button>
             </el-form-item>
           </el-form>
@@ -373,6 +375,7 @@ import {
 } from "@/api/device/breakdown"
 import {getToken} from "@/utils/auth"
 import ImageUpload from "@/components/ImageUpload/index"
+// import {isObject} from "echarts/types/dist/echarts";
 export default {
   components:{
     ImageUpload
@@ -447,12 +450,13 @@ export default {
         }
       ],
       formRules:{
-        route_self: [
+        route: [
           { required: true, message: '请选择线路名和自编号', trigger: 'blur' }
         ],
       },
       timer: null,
-      formChange:false,
+      formChange:0,
+      // formContextCopy:null,
 
 
       // updateIsDelete: false,
@@ -610,11 +614,12 @@ export default {
     },
     // 查询故障列表new
     listBreakdown(){
+      this.loading=true
       let query={
         pageNum:this.current,
         pageSize:this.size,
         status:this.status,
-        companyName:this.company,
+        // companyName:this.companyName,
         routeName:this.routeName,
         searchValue:this.keywords
       }
@@ -624,7 +629,8 @@ export default {
         this.loading=false
       }).catch(error => {
         if(this.flushes<=1){
-          this.listBreakdown()
+          this.$message('正在重试。。。');
+          setTimeout(function (){this.listBreakdown()},2000)
           this.flushes++
         }
       })
@@ -679,6 +685,7 @@ export default {
       Breakdown(id).then(response =>{
         this.form=response.data
       })
+      // this.formContextCopy=this.form
       this.dialogForFrom=true
     },
     //取消（关闭抽屉）
@@ -689,10 +696,11 @@ export default {
     },
     //关闭抽屉前回调new
     handleClose(){
-      if (this.loadingForFrom) {
+      if (this.loadingForFrom||this.formChange<=1) {
+        this.dialogForFrom=false
         return;
       }
-      this.$confirm('确定要提交表单吗？')
+      this.$confirm('确定要保存吗？')
         .then(_ => {
           this.loadingForFrom = true;
           this.timer = setTimeout(() => {
@@ -708,11 +716,38 @@ export default {
     //关闭抽屉后回调new
     closedForm(){
       this.form=[]
+      this.$refs.form.resetFields()
+      this.formChange=0
     },
     //表单提交
     onSubmit(){
-
-    }
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    // isEqual(obj1, obj2) {
+    //   // 1.判断是不是引用类型，不是引用
+    //   if (!typeof (obj1)=="object" || !typeof (obj2)=="object") {
+    //     return obj1 === obj2;
+    //   }
+    //   // 2.比较是否为同一个内存地址
+    //   if (obj1 === obj2) return true;
+    //   // 3.比较 key 的数量
+    //   const obj1KeysLength = Object.keys(obj1).length;
+    //   const obj2KeysLength = Object.keys(obj2).length;
+    //   if (obj1KeysLength !== obj2KeysLength) return false;
+    //   // 4.比较 value 的值
+    //   for (let key in obj1) {
+    //     const result = this.isEqual(obj1[key], obj2[key]);
+    //     if(!result) return false;
+    //   }
+    //   return true;
+    // }
   },
 
 
@@ -723,9 +758,20 @@ export default {
       this.current = 1
       this.listBreakdown()
     },
-    form(){
-      this.formChange=true
+    form:{
+      handler(n,o){
+        this.formChange++
+      },
+      deep:true
     },
+    // formContextChange:{
+    //   handler(n,o){
+    //     if(n && this.isEqual(n,o)){
+    //       this.formChange=0
+    //     }
+    //   },
+    //   deep:true
+    // }
     // routeName(){
     //   if(this.routeName===""){
     //     this.companyName=""
@@ -764,12 +810,16 @@ export default {
         }
       }
     },
-    //监听选中的状态为当前状态时返回选中状态类名，为其他状态时返回其他状态类名
+    //监听选中的状态为当前状态时返回选中状态类名，为其他状态时返回其他状态类名new
     isActive() {
       return function (status) {
         return this.breakdownStatus == status ? 'active-status' : 'status'
       }
-    }
+    },
+    // formContextChange(){
+    //   console.log("-----"+JSON.parse(JSON.stringify(this.formContextCopy)))
+    //   return JSON.parse(JSON.stringify(this.formContextCopy))
+    // }
   }
 }
 </script>
