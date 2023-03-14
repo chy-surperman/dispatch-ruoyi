@@ -312,7 +312,7 @@
             </el-form-item>
             <el-form-item label="维护状态">
               <el-tooltip :content="form.status?'已维护':'未维护'" placement="right" effect="light">
-                <el-switch v-model="form.status>0"></el-switch>
+                <el-switch v-model="form.status>0" active-value="1" inactive-value="0"></el-switch>
               </el-tooltip>
             </el-form-item>
             <el-form-item label="维护时间">
@@ -411,7 +411,7 @@ export default {
         reportTime: null,
         routeName: null,
         selfNum: null,
-        status: 0,
+        status: null,
         type: null,
         updateBy: null,
         updateTime: null,
@@ -715,6 +715,7 @@ export default {
     },
     //关闭抽屉后回调new
     closedForm(){
+      this.form={}
       this.$refs.form.resetFields()
       this.formChange=0
     },
