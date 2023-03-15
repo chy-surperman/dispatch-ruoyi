@@ -32,13 +32,16 @@ public class VehicleCaches {
 
     @PostConstruct
     public void start(){
-        List<DeviceRoutemsg> deviceRoutemsgs = deviceRoutemsgMapper.selectAllDeviceRoutemsg();
+        if(!vehiclesRedisTemplate.hasKey(CacheConstants.ALL_VEHICLES)){
+            List<DeviceRoutemsg> deviceRoutemsgs = deviceRoutemsgMapper.selectAllDeviceRoutemsg();
 
-        for(DeviceRoutemsg deviceRoutemsg:deviceRoutemsgs)
-        {
-            List<Vehicle> vehicles = vehicleMapper.selectVehicleByRouteName(deviceRoutemsg.getRouteName());
-            vehiclesRedisTemplate.opsForHash().put(CacheConstants.ALL_VEHICLES,deviceRoutemsg.getRouteName(),vehicles);
+            for(DeviceRoutemsg deviceRoutemsg:deviceRoutemsgs)
+            {
+                List<Vehicle> vehicles = vehicleMapper.selectVehicleByRouteName(deviceRoutemsg.getRouteName());
+                vehiclesRedisTemplate.opsForHash().put(CacheConstants.ALL_VEHICLES,deviceRoutemsg.getRouteName(),vehicles);
+            }
         }
+
     }
 
     public List<Vehicle> getVehicles(String routeName){

@@ -60,7 +60,7 @@ public class FaultUrlController extends BaseController
     @RequiresPermissions("device:faultUrl:export")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response,@RequestBody FaultUrl faultUrl)
+    public void export(HttpServletResponse response,FaultUrl faultUrl)
     {
         List<FaultUrl> list = faultUrlService.selectFaultUrlList(faultUrl);
         ExcelUtil<FaultUrl> util = new ExcelUtil<FaultUrl>(FaultUrl.class);
