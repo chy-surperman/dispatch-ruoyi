@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyt.device.mapper.FaultUrlMapper">
-    
+
     <resultMap type="FaultUrl" id="FaultUrlResult">
         <result property="id"    column="id"    />
         <result property="vehicleId"    column="vehicleId"    />
@@ -54,12 +54,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="searchValue != null">and selfNum like '%${searchValue}%' or routeName like '%${searchValue}%'</if>
         </where> order  by reportTime Desc
     </select>
-    
+
     <select id="selectFaultUrlById" parameterType="Long" resultMap="FaultUrlResult">
         <include refid="selectFaultUrlVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertFaultUrl" parameterType="FaultUrl" useGeneratedKeys="true" keyProperty="id">
         insert into faultUrl
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -94,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="maintainer != null">#{maintainer},</if>
             <if test="consuming != null">#{consuming},</if>
             <if test="phone != null">#{phone},</if>
-            <if test="mainUrl != null">mainUrl = #{mainUrl},</if>
+            <if test="mainUrl != null">#{mainUrl},</if>
          </trim>
     </insert>
 
@@ -125,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteFaultUrlByIds" parameterType="String">
-        delete from faultUrl where id in 
+        delete from faultUrl where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

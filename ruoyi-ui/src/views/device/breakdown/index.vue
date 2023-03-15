@@ -14,7 +14,7 @@
           type="danger"
           size="small"
           icon="el-icon-delete"
-          :disabled="breakdownIds.length == 0"
+          :disabled="breakdownIds.length === 0"
           @click="remove = true">
           批量删除
         </el-button>
@@ -22,7 +22,7 @@
           type="success"
           size="small"
           icon="el-icon-download"
-          :disabled="breakdownIds.length == 0"
+          :disabled="breakdownIds.length === 0"
           @click="isExport = true">
           批量导出
         </el-button>
@@ -75,7 +75,7 @@
         </div>
       </div>
 <!--      表格主体-->
-      <el-table border :data="breakdowns" @selection-change="selectionChange" v-loading="loading" header-cell-style="background:#FFFFFF">
+      <el-table border :data="breakdowns" @selection-change="selectionChange" v-loading="loading" :header-cell-style="{background:'#FFFFFF'}">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="url" label="故障图片" width="180" align="center">
           <template slot-scope="scope">
@@ -191,20 +191,6 @@
               >
               <el-button size="mini" type="danger" slot="reference"> 删除 </el-button>
             </el-popconfirm>
-<!--            回收状态功能按钮-->
-<!--            <el-popconfirm-->
-<!--              title="确定恢复吗？"-->
-<!--              v-if="scope.row.isDelete == 1"-->
-<!--              @confirm="updateArticleDelete(scope.row.id)">-->
-<!--              <el-button size="mini" type="success" slot="reference"> 恢复 </el-button>-->
-<!--            </el-popconfirm>-->
-<!--            <el-popconfirm-->
-<!--              style="margin-left: 10px"-->
-<!--              v-if="scope.row.isDelete == 1"-->
-<!--              title="确定彻底删除吗？"-->
-<!--              @confirm="deleteArticles(scope.row.id)">-->
-<!--              <el-button size="mini" type="danger" slot="reference"> 删除 </el-button>-->
-<!--            </el-popconfirm>-->
           </template>
         </el-table-column>
       </el-table>
@@ -217,18 +203,8 @@
         :current-page="current"
         :page-size="size"
         :total="count"
-        :page-sizes="[5, 10, 20]"
+        :page-sizes="[5, 10, 20,count]"
         layout="total, sizes, prev, pager, next, jumper" />
-
-<!--      确认弹窗-->
-<!--      <el-dialog :visible.sync="updateIsDelete" width="30%">-->
-<!--        <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>-->
-<!--        <div style="font-size: 1rem">是否删除选中项？</div>-->
-<!--        <div slot="footer">-->
-<!--          <el-button @click="updateIsDelete = false">取 消</el-button>-->
-<!--          <el-button type="primary" @click="updateArticleDelete(null)"> 确 定 </el-button>-->
-<!--        </div>-->
-<!--      </el-dialog>-->
       <el-dialog :visible.sync="remove" width="25%">
         <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" /><span style="font-family: maoken;color: brown">注意</span></div>
         <div style="font-size: 1rem;font-family: maoken">是否彻底删除选中项？</div>
@@ -251,7 +227,6 @@
         :before-close="handleClose"
         :visible.sync="dialogForFrom"
         @closed="closedForm"
-        destroy-on-close="true"
         direction="rtl"
         custom-class="from_drawer"
         ref="drawer"
@@ -334,10 +309,6 @@
               <el-button @click="cancelForm">取消</el-button>
             </el-form-item>
           </el-form>
-<!--          <div class="drawer__footer">-->
-<!--            <el-button @click="cancelForm">取 消</el-button>-->
-<!--            <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? '提交中 ...' : '确 定' }}</el-button>-->
-<!--          </div>-->
         </div>
       </el-drawer>
     </el-card>
@@ -345,7 +316,7 @@
 
 <script>
 import {
-  Breakdown, DeleteBreakdown, ExportBreakdown,
+  Breakdown, DeleteBreakdown,
   ListBreakdown,
   ListCompanyName,
   ListRouteName,
@@ -353,9 +324,6 @@ import {
 } from "@/api/device/breakdown"
 import {getToken} from "@/utils/auth"
 import ImageUpload from "@/components/ImageUpload/index"
-import request from "@/utils/request";
-import log from "@/views/monitor/job/log";
-// import {isObject} from "echarts/types/dist/echarts";
 export default {
   components:{
     ImageUpload
@@ -386,35 +354,10 @@ export default {
       flushes:1,
       loadingForFrom:false,
       dialogForFrom:false,
-      form:{
-        consuming: null,
-        createBy: null,
-        createTime: null,
-        description: null,
-        driverId: 0,
-        id: null,
-        mainUrl: null,
-        maintainDescription: null,
-        maintainTime: null,
-        maintainer: null,
-        params: {},
-        phone: null,
-        remark: null,
-        reportTime: null,
-        routeName: null,
-        selfNum: null,
-        status: 0,
-        type: null,
-        updateBy: null,
-        updateTime: null,
-        url: null,
-        vehicleId: 0
-      },
+      form:{},
       imageList:[],
       breakdownIds: [],
-
       isExport: false,
-
       type:[
         {
           value: 0,
@@ -440,14 +383,6 @@ export default {
       timer: null,
       formChange:0,
       remove: false,
-
-      // updateIsDelete: false,
-      // articles: [],
-      // categories: [],
-      // tags: [],
-      // type: null,
-      // categoryId: null,
-      // tagId: null,
     }
   },
   methods: {
@@ -455,9 +390,9 @@ export default {
     selectionChange(breakdowns) {
       this.breakdownIds = []
       breakdowns.forEach((item) => {
-        console.log(typeof item.id)
         this.breakdownIds.push(item.id)
       })
+      console.log(this.breakdownIds.length)
     },
     // 条件查询new
     searchBreakdown() {
@@ -465,28 +400,13 @@ export default {
       this.listBreakdown()
     },
 
-    // 导出记录按钮
+    // 导出记录按钮new
     exportBreakdowns() {
-      var param = {
-        ids:this.breakdownIds
-      }
-
-      // ExportBreakdown(query)
       this.download('device/faultUrl/export',{
-        ids:4152
+        ids:this.breakdownIds
       },`${new Date().getTime()}.xlsx`)
+      this.isExport=false
     },
-    //下载导出记录
-    // downloadFile(url) {
-    //   const iframe = document.createElement('iframe')
-    //   iframe.style.display = 'none'
-    //   iframe.style.height = 0
-    //   iframe.src = url
-    //   document.body.appendChild(iframe)
-    //   setTimeout(() => {
-    //     iframe.remove()
-    //   }, 5 * 60 * 1000)
-    // },
 
     // 分页显示条数new
     sizeChange(size) {
@@ -531,9 +451,10 @@ export default {
         this.count = response.total
         this.loading=false
       }).catch(error => {
-        if(this.flushes<=2){
+        if(this.flushes<=1){
           this.$message('正在重试。。。');
-          setTimeout(function (){this.listBreakdown()},2000)
+          setTimeout(function (){
+            this.listBreakdown()},2000)
           this.flushes++
         }
       })
@@ -575,7 +496,7 @@ export default {
         this.$refs.maintainImg.showViewer = true
       }
     },
-    //查询自编号
+    //查询自编号new
     selfNum(query){
       if(query!=null){
         let routeName={
@@ -602,7 +523,7 @@ export default {
       // this.formContextCopy=this.form
       this.dialogForFrom=true
     },
-    //取消（关闭抽屉）
+    //取消（关闭抽屉）new
     cancelForm(){
       this.dialogForFrom=false
       this.loadingForFrom = false;
@@ -674,8 +595,10 @@ export default {
             message: '删除成功',
             type: 'success'
           })
+          this.remove=false
           this.listBreakdown()
         }).catch(error => {
+          this.remove=false
           this.$message.error('删除失败');
           this.listBreakdown()
         })
@@ -730,7 +653,7 @@ export default {
     //监听选中的状态为当前状态时返回选中状态类名，为其他状态时返回其他状态类名new
     isActive() {
       return function (status) {
-        return this.breakdownStatus == status ? 'active-status' : 'status'
+        return this.breakdownStatus === status ? 'active-status' : 'status'
       }
     },
   }
