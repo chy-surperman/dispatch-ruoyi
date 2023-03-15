@@ -34,7 +34,7 @@ public class FaultUrl extends BaseEntity
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "创建时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "创建时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm:ss")
     private Date reportTime;
 
     /** $column.columnComment */
@@ -63,7 +63,7 @@ public class FaultUrl extends BaseEntity
 
     /** 修改时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm:ss")
     private Date maintainTime;
 
     /** $column.columnComment */
