@@ -31,6 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectFaultUrlVo"/>
         <where>
             <if test="id != null "> and id = #{id}</if>
+            <if test="ids != null "> and id in
+              <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+                ${item}
+              </foreach>
+            </if>
             <if test="vehicleId != null "> and vehicleId = #{vehicleId}</if>
             <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
             <if test="driverId != null "> and driverId = #{driverId}</if>
