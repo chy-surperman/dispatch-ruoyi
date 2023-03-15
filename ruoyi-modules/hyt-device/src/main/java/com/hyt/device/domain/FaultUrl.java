@@ -21,15 +21,15 @@ public class FaultUrl extends BaseEntity
     private Long id;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "车辆ID", readConverterExp = "$column.readConverterExp()")
     private Integer vehicleId;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "线路名", readConverterExp = "$column.readConverterExp()")
     private String routeName;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "司机ID", readConverterExp = "$column.readConverterExp()")
     private Integer driverId;
 
     /** 创建时间 */
@@ -38,27 +38,27 @@ public class FaultUrl extends BaseEntity
     private Date reportTime;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "自编号", readConverterExp = "$column.readConverterExp()")
     private String selfNum;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "故障类型", readConverterExp = "0=主机故障,1=报站故障,2=摄像头故障")
     private Integer type;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "图片地址", readConverterExp = "$column.readConverterExp()")
     private String url;
 
     /** 未处理 */
-    @Excel(name = "未处理")
+    @Excel(name = "描述")
     private String description;
 
     /** 未安装状态 */
-    @Excel(name = "未安装状态")
+    @Excel(name = "状态")
     private Integer status;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "维护描述", readConverterExp = "$column.readConverterExp()")
     private String maintainDescription;
 
     /** 修改时间 */
@@ -67,20 +67,20 @@ public class FaultUrl extends BaseEntity
     private Date maintainTime;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "维护人员", readConverterExp = "$column.readConverterExp()")
     private String maintainer;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "维护时间", readConverterExp = "$column.readConverterExp()")
     private String consuming;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "手机号码", readConverterExp = "$column.readConverterExp()")
     private String phone;
 
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "维护图片", readConverterExp = "$column.readConverterExp()")
     private String mainUrl;
 
     private Long[] ids;
