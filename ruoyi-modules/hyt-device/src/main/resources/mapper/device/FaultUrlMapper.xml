@@ -29,7 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectFaultUrlList" parameterType="FaultUrl" resultMap="FaultUrlResult">
         <include refid="selectFaultUrlVo"/>
-        <where>  
+        <where>
+            <if test="id != null "> and id = #{id}</if>
             <if test="vehicleId != null "> and vehicleId = #{vehicleId}</if>
             <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
             <if test="driverId != null "> and driverId = #{driverId}</if>
