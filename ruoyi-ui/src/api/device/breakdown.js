@@ -68,4 +68,7 @@ export function SelfNum(query) {
   })
 }
 
-//
+//导出记录
+export function ExportBreakdown(ids) {
+   return download("device/faultUrl/export",{ids},`${new Date().getTime()}.xlsx`)
+}

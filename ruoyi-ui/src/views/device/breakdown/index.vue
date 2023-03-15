@@ -10,21 +10,11 @@
       </div>
 <!--      功能栏-->
       <div class="operation-container">
-<!--        <el-button-->
-<!--          v-if="isDelete == 0"-->
-<!--          type="danger"-->
-<!--          size="small"-->
-<!--          icon="el-icon-delete"-->
-<!--          :disabled="articleIds.length == 0"-->
-<!--          @click="updateIsDelete = true">-->
-<!--          批量删除-->
-<!--        </el-button>-->
         <el-button
-
           type="danger"
           size="small"
           icon="el-icon-delete"
-          :disabled="articleIds.length == 0"
+          :disabled="breakdownIds.length == 0"
           @click="remove = true">
           批量删除
         </el-button>
@@ -32,7 +22,7 @@
           type="success"
           size="small"
           icon="el-icon-download"
-          :disabled="articleIds.length == 0"
+          :disabled="breakdownIds.length == 0"
           @click="isExport = true">
           批量导出
         </el-button>
@@ -248,11 +238,11 @@
         </div>
       </el-dialog>
       <el-dialog :visible.sync="isExport" width="30%">
-        <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" />提示</div>
-        <div style="font-size: 1rem">是否导出选中文章？</div>
+        <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" /><span style="font-family: maoken;color: brown">提示</span></div>
+        <div style="font-size: 1rem;font-family: maoken">是否导出选中文章？</div>
         <div slot="footer">
           <el-button @click="isExport = false">取 消</el-button>
-          <el-button type="primary" @click="exportArticles(null)"> 确 定 </el-button>
+          <el-button type="primary" @click="exportBreakdowns()"> 确 定 </el-button>
         </div>
       </el-dialog>
 <!--      提交表单-->
@@ -311,8 +301,8 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item label="维护状态">
-              <el-tooltip :content="form.status?'已维护':'未维护'" placement="right" effect="light">
-                <el-switch v-model="form.status>0" active-value="1" inactive-value="0"></el-switch>
+              <el-tooltip :content="form.status>0?'已维护':'未维护'" placement="right" effect="light">
+                <el-switch v-model="form.status" active-value='1' inactive-value='0'></el-switch>
               </el-tooltip>
             </el-form-item>
             <el-form-item label="维护时间">
@@ -355,7 +345,7 @@
 
 <script>
 import {
-  Breakdown, DeleteBreakdown,
+  Breakdown, DeleteBreakdown, ExportBreakdown,
   ListBreakdown,
   ListCompanyName,
   ListRouteName,
@@ -363,6 +353,8 @@ import {
 } from "@/api/device/breakdown"
 import {getToken} from "@/utils/auth"
 import ImageUpload from "@/components/ImageUpload/index"
+import request from "@/utils/request";
+import log from "@/views/monitor/job/log";
 // import {isObject} from "echarts/types/dist/echarts";
 export default {
   components:{
@@ -411,7 +403,7 @@ export default {
         reportTime: null,
         routeName: null,
         selfNum: null,
-        status: null,
+        status: 0,
         type: null,
         updateBy: null,
         updateTime: null,
@@ -419,7 +411,7 @@ export default {
         vehicleId: 0
       },
       imageList:[],
-      articleIds: [],
+      breakdownIds: [],
 
       isExport: false,
 
@@ -459,11 +451,12 @@ export default {
     }
   },
   methods: {
-    // 勾选表格记录事件
-    selectionChange(articles) {
-      this.articleIds = []
-      articles.forEach((item) => {
-        this.articleIds.push(item.id)
+    // 勾选表格记录事件new
+    selectionChange(breakdowns) {
+      this.breakdownIds = []
+      breakdowns.forEach((item) => {
+        console.log(typeof item.id)
+        this.breakdownIds.push(item.id)
       })
     },
     // 条件查询new
@@ -472,108 +465,29 @@ export default {
       this.listBreakdown()
     },
 
-    // 删除/恢复按钮
-    updateArticleDelete(id) {
-      let param = {}
-      if (id != null) {
-        param.ids = [id]
-      } else {
-        param.ids = this.articleIds
-      }
-      param.isDelete = this.isDelete == 0 ? 1 : 0
-      this.axios.put('/api/admin/articles', param).then(({ data }) => {
-        if (data.flag) {
-          this.$notify.success({
-            title: '成功',
-            message: data.message
-          })
-          this.listArticles()
-        } else {
-          this.$notify.error({
-            title: '失败',
-            message: data.message
-          })
-        }
-        this.updateIsDelete = false
-      })
-    },
-    // 彻底删除按钮
-    deleteArticles(id) {
-      let param = {}
-      if (id == null) {
-        param = { data: this.articleIds }
-      } else {
-        param = { data: [id] }
-      }
-      this.axios.delete('/api/admin/articles/delete', param).then(({ data }) => {
-        if (data.flag) {
-          this.$notify.success({
-            title: '成功',
-            message: data.message
-          })
-          this.listArticles()
-        } else {
-          this.$notify.error({
-            title: '失败',
-            message: data.message
-          })
-        }
-        this.remove = false
-      })
-    },
     // 导出记录按钮
-    exportArticles(id) {
-      var param = {}
-      if (id == null) {
-        param = this.articleIds
-      } else {
-        param = [id]
+    exportBreakdowns() {
+      var param = {
+        ids:this.breakdownIds
       }
-      this.axios.post('/api/admin/articles/export', param).then(({ data }) => {
-        if (data.flag) {
-          this.$notify.success({
-            title: '成功',
-            message: data.message
-          })
-          data.data.forEach((item) => {
-            this.downloadFile(item)
-          })
-          this.listArticles()
-        } else {
-          this.$notify.error({
-            title: '失败',
-            message: data.message
-          })
-        }
-        this.isExport = false
-      })
+
+      // ExportBreakdown(query)
+      this.download('device/faultUrl/export',{
+        ids:4152
+      },`${new Date().getTime()}.xlsx`)
     },
     //下载导出记录
-    downloadFile(url) {
-      const iframe = document.createElement('iframe')
-      iframe.style.display = 'none'
-      iframe.style.height = 0
-      iframe.src = url
-      document.body.appendChild(iframe)
-      setTimeout(() => {
-        iframe.remove()
-      }, 5 * 60 * 1000)
-    },
-    // 导入按钮
-    uploadArticle(data) {
-      if (data.flag) {
-        this.$notify.success({
-          title: '成功',
-          message: '导入成功'
-        })
-        this.listArticles()
-      } else {
-        this.$notify.error({
-          title: '失败',
-          message: data.message
-        })
-      }
-    },
+    // downloadFile(url) {
+    //   const iframe = document.createElement('iframe')
+    //   iframe.style.display = 'none'
+    //   iframe.style.height = 0
+    //   iframe.src = url
+    //   document.body.appendChild(iframe)
+    //   setTimeout(() => {
+    //     iframe.remove()
+    //   }, 5 * 60 * 1000)
+    // },
+
     // 分页显示条数new
     sizeChange(size) {
       this.size = size
@@ -704,14 +618,13 @@ export default {
         .then(_ => {
           this.loadingForFrom = true;
           this.timer = setTimeout(() => {
-            done();
+            this.onSubmit()
             // 动画关闭需要一定的时间
             setTimeout(() => {
               this.loadingForFrom = false;
             }, 400);
           }, 2000);
         })
-        .catch(_ => {});
     },
     //关闭抽屉后回调new
     closedForm(){
@@ -719,7 +632,7 @@ export default {
       this.$refs.form.resetFields()
       this.formChange=0
     },
-    //表单提交
+    //表单提交new
     onSubmit(){
       this.$refs.form.validate((valid) => {
         if (valid) {
@@ -742,7 +655,7 @@ export default {
         }
       });
     },
-    //删除故障
+    //删除故障new
     deleteBreakdown(id){
       if(id!=null){
         DeleteBreakdown(id).then(response => {
@@ -756,7 +669,16 @@ export default {
           this.listBreakdown()
         })
       }else {
-
+        DeleteBreakdown(this.breakdownIds).then(response => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.listBreakdown()
+        }).catch(error => {
+          this.$message.error('删除失败');
+          this.listBreakdown()
+        })
       }
     }
   },
