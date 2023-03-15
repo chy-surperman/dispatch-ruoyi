@@ -7,6 +7,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
+import javax.validation.constraints.Size;
+
 /**
  * 【请填写功能名称】对象 faultUrl
  * 
@@ -75,6 +77,7 @@ public class FaultUrl extends BaseEntity
     private String consuming;
 
     /** $column.columnComment */
+    @Size(min = 0, max = 11, message = "手机号码长度不能超过11个字符")
     @Excel(name = "手机号码", readConverterExp = "$column.readConverterExp()")
     private String phone;
 
