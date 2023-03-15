@@ -77,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="maintainer != null">maintainer,</if>
             <if test="consuming != null">consuming,</if>
             <if test="phone != null">phone,</if>
+            <if test="mainUrl != null">mainUrl,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="vehicleId != null">#{vehicleId},</if>
