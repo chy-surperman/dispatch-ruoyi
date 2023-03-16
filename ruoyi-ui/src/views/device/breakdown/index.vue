@@ -318,10 +318,12 @@
 import {
   Breakdown, DeleteBreakdown,
   ListBreakdown,
-  ListCompanyName,
-  ListRouteName,
-  ListRouteNameForCompany, SelfNum, SubmitForm,
+   SubmitForm,
 } from "@/api/device/breakdown"
+import {ListCompanyName,
+  ListRouteName,
+  ListRouteNameForCompany, SelfNum,
+} from "@/api/device/dict/data"
 import {getToken} from "@/utils/auth"
 import ImageUpload from "@/components/ImageUpload/index"
 export default {
