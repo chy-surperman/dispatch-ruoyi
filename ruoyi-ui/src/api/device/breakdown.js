@@ -9,31 +9,6 @@ export function ListBreakdown(query){
   })
 }
 
-//查询公司列表
-export function ListCompanyName() {
-  return request({
-    url:"device/common/companyName",
-    method:"get",
-  })
-}
-
-//查询线路名
-export function ListRouteName(){
-  return request({
-    url:"device/common/allRouteName",
-    method:"get"
-  })
-}
-
-//根据公司查询线路列表
-export function ListRouteNameForCompany(query) {
-  return request({
-    url:"device/common/routeName",
-    method:"get",
-    params:query
-  })
-}
-
 //获取故障详情
 export function Breakdown(id) {
   return request({
@@ -59,16 +34,3 @@ export function DeleteBreakdown(ids) {
   })
 }
 
-//查询自编号
-export function SelfNum(query) {
-  return request({
-    url:"device/common/vehicesByRouteName",
-    method:"get",
-    params:query
-  })
-}
-
-//导出记录
-export function ExportBreakdown(ids) {
-   return download("device/faultUrl/export",{ids},`${new Date().getTime()}.xlsx`)
-}
