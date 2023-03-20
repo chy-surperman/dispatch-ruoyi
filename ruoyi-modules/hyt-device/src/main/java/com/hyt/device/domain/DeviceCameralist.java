@@ -36,6 +36,89 @@ public class DeviceCameralist extends BaseEntity
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private Date showDate;
 
+
+    private String company;
+
+    private String routeName;
+
+    private String selfNum;
+
+    private String plateNum;
+
+    private String iccid;
+
+    private String currentDeviceVersion;
+
+    private String screenBrightness;
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
+    }
+
+    public String getSelfNum() {
+        return selfNum;
+    }
+
+    public void setSelfNum(String selfNum) {
+        this.selfNum = selfNum;
+    }
+
+    public String getPlateNum() {
+        return plateNum;
+    }
+
+    public void setPlateNum(String plateNum) {
+        this.plateNum = plateNum;
+    }
+
+    public String getIccid() {
+        return iccid;
+    }
+
+    public void setIccid(String iccid) {
+        this.iccid = iccid;
+    }
+
+    public String getCurrentDeviceVersion() {
+        return currentDeviceVersion;
+    }
+
+    public void setCurrentDeviceVersion(String currentDeviceVersion) {
+        this.currentDeviceVersion = currentDeviceVersion;
+    }
+
+    public String getScreenBrightness() {
+        return screenBrightness;
+    }
+
+    public void setScreenBrightness(String screenBrightness) {
+        this.screenBrightness = screenBrightness;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+    private String volume;
+
+
+
     public void setId(Long id) 
     {
         this.id = id;
