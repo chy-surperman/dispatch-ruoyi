@@ -133,25 +133,15 @@ public class DeviceCameralist extends BaseEntity
         this.deviceId = deviceId;
     }
 
-    public String getDeviceId() 
-    {
-        return deviceId;
+    public String getCameraList() {
+        return cameraList;
     }
-    public void setCameraList(String cameraList) 
-    {
+
+    public void setCameraList(String cameraList) {
         this.cameraList = cameraList;
     }
 
-    public String getCameraList() 
-    {
-        return cameraList;
-    }
-    public void setCurrentTime(Long currentTime) 
-    {
-        this.currentTime = currentTime;
-    }
-
-    public Long getCurrentTime() 
+    public Long getCurrentTime()
     {
         return currentTime;
     }
@@ -167,12 +157,20 @@ public class DeviceCameralist extends BaseEntity
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("deviceId", getDeviceId())
-            .append("cameraList", getCameraList())
-            .append("currentTime", getCurrentTime())
-            .append("showDate", getShowDate())
-            .toString();
+        return "DeviceCameralist{" +
+                "id=" + id +
+                ", deviceId='" + deviceId + '\'' +
+                ", cameraList='" + cameraList + '\'' +
+                ", currentTime=" + currentTime +
+                ", showDate=" + showDate +
+                ", company='" + company + '\'' +
+                ", routeName='" + routeName + '\'' +
+                ", selfNum='" + selfNum + '\'' +
+                ", plateNum='" + plateNum + '\'' +
+                ", iccid='" + iccid + '\'' +
+                ", currentDeviceVersion='" + currentDeviceVersion + '\'' +
+                ", screenBrightness='" + screenBrightness + '\'' +
+                ", volume='" + volume + '\'' +
+                '}';
     }
 }
