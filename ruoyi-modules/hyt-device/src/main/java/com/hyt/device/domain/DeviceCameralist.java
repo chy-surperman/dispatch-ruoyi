@@ -20,6 +20,10 @@ public class DeviceCameralist extends BaseEntity
     /** $column.columnComment */
     private Long id;
 
+    public String getDeviceId() {
+        return deviceId;
+    }
+
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String deviceId;
@@ -128,6 +132,7 @@ public class DeviceCameralist extends BaseEntity
     {
         return id;
     }
+
     public void setDeviceId(String deviceId) 
     {
         this.deviceId = deviceId;

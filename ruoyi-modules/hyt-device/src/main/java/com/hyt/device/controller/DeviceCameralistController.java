@@ -39,7 +39,7 @@ public class DeviceCameralistController extends BaseController
     private IDeviceCameralistService deviceCameralistService;
 
     /**
-     * 查询【主机列表】列表
+     * 查询【摄像头列表】列表
      */
     @RequiresPermissions("device:cameraList:list")
     @GetMapping("/list")

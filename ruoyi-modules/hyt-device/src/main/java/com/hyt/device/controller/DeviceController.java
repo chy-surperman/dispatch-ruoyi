@@ -2,21 +2,16 @@ package com.hyt.device.controller;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -26,6 +21,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 【请填写功能名称】Controller
@@ -38,6 +34,9 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 @RequestMapping("/device")
 public class DeviceController extends BaseController
 {
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Autowired
     private IDeviceService deviceService;
 
@@ -52,6 +51,13 @@ public class DeviceController extends BaseController
         startPage();
         List<Device> list = this.deviceService.selectDeviceList(device);
         return getDataTable(list);
+    }
+
+    @ApiOperation("主机发送指令")
+    @RequestMapping(value = "/push", method= RequestMethod.POST)
+    public void pushNotify(@RequestBody Map<String, Object> datas){
+        String forObject = restTemplate.postForObject("http://124.71.35.135:8282/device/notify/push",datas,String.class);
+        System.err.println(forObject);
     }
 
 
