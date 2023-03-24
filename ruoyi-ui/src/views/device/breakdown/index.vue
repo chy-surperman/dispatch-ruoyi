@@ -129,7 +129,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="maintainTime" label="维护时间" width="130" align="center">
+        <el-table-column prop="maintainTime" label="维护时间" width="115" align="center">
           <template slot-scope="scope">
             <i class="el-icon-time" style="margin-right: 5px" />
             {{ scope.row.maintainTime}}
@@ -138,7 +138,7 @@
 
         <el-table-column prop="selfNum,routeName" label="线路/自编号" width="150" align="center">
           <template slot-scope="scope">
-            {{scope.row.routeName}}/{{scope.row.selfNum}}
+            {{scope.row.routeName}}<span style="color: #ff9900;margin: 3px">|</span>{{scope.row.selfNum}}
           </template>
         </el-table-column>
         <el-table-column prop="maintainDescription" label="维护说明" width="170" align="center">
@@ -450,6 +450,10 @@ export default {
       }
       ListBreakdown(query).then(response => {
         this.breakdowns=response.rows
+        for (let i of this.breakdowns) {
+          i.reportTime=new Date(i.reportTime).toLocaleString()
+          i.maintainTime=new Date(i.maintainTime).toLocaleString()
+        }
         this.count = response.total
         this.loading=false
       }).catch(error => {
