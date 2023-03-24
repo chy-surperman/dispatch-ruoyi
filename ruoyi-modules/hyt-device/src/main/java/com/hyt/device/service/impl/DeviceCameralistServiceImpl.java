@@ -68,7 +68,7 @@ public class DeviceCameralistServiceImpl implements IDeviceCameralistService
     /**
      * 新增【请填写功能名称】
      * 
-     * @param deviceCameralist 【请填写功能名称】
+     * @param deviceCameralist 【请填写 功能名称】
      * @return 结果
      */
     @Override
