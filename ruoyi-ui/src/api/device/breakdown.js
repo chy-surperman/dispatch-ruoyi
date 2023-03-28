@@ -9,31 +9,6 @@ export function ListBreakdown(query){
   })
 }
 
-//查询公司列表
-export function ListCompanyName() {
-  return request({
-    url:"device/common/companyName",
-    method:"get",
-  })
-}
-
-//查询线路名
-export function ListRouteName(){
-  return request({
-    url:"device/common/allRouteName",
-    method:"get"
-  })
-}
-
-//根据公司查询线路列表
-export function ListRouteNameForCompany(query) {
-  return request({
-    url:"device/common/routeName",
-    method:"get",
-    params:query
-  })
-}
-
 //获取故障详情
 export function Breakdown(id) {
   return request({
@@ -43,6 +18,19 @@ export function Breakdown(id) {
 }
 
 //故障表单提交
-export function f() {
-
+export function SubmitForm(query) {
+  return request({
+    url:"device/faultUrl",
+    method:"post",
+    data:query
+  })
 }
+
+//删除故障
+export function DeleteBreakdown(ids) {
+  return request({
+    url:"device/faultUrl/"+ids,
+    method:"delete"
+  })
+}
+

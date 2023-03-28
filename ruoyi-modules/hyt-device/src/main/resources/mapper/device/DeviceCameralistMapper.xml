@@ -10,6 +10,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="cameraList"    column="cameraList"    />
         <result property="currentTime"    column="currentTime"    />
         <result property="showDate"    column="showDate"    />
+        <result property="company" column="company"/>
+        <result property="routeName" column="routeName"/>
+        <result property="selfNum" column="selfNum"/>
+        <result property="plateNum" column="plateNum"/>
+        <result property="iccid" column="iccid"/>
+        <result property="currentDeviceVersion" column="currentDeviceVersion"/>
+        <result property="screenBrightness" column="screenBrightness"/>
     </resultMap>
 
     <sql id="selectDeviceCameralistVo">
@@ -17,12 +24,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectDeviceCameralistList" parameterType="DeviceCameralist" resultMap="DeviceCameralistResult">
-        <include refid="selectDeviceCameralistVo"/>
-        <where>  
+        select c.id, c.deviceId, c.cameraList, c.currentTime, c.showDate, d.company, d.routeName, d.selfNum, d.plateNum, d.iccid, d.currentDeviceVersion, d.screenBrightness from device_cameraList c,device d
+        <where>
+            c.deviceId=d.deviceId
             <if test="deviceId != null  and deviceId != ''"> and deviceId = #{deviceId}</if>
             <if test="cameraList != null  and cameraList != ''"> and cameraList = #{cameraList}</if>
             <if test="currentTime != null "> and currentTime = #{currentTime}</if>
             <if test="showDate != null "> and showDate = #{showDate}</if>
+            <if test="company != null "> and company = #{company}</if>
+            <if test="routeName != null "> and routeName = #{routeName}</if>
+            <if test="selfNum != null "> and selfNum = #{selfNum}</if>
+            <if test="plateNum != null "> and plateNum = #{plateNum}</if>
+            <if test="iccid != null "> and iccid = #{iccid}</if>
+            <if test="currentDeviceVersion != null "> and currentDeviceVersion = #{currentDeviceVersion}</if>
+            <if test="screenBrightness != null "> and screenBrightness = #{screenBrightness}</if>
+            <if test="searchValue != null">and selfNum like '%${searchValue}%' or routeName like '%${searchValue}%' or deviceId like '%${searchValue}%'</if>
+            order  by d.routeName asc
         </where>
     </select>
     

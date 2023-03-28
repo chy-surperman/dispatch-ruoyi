@@ -76,7 +76,8 @@ export default {
         password: "admin123",
         rememberMe: false,
         code: "",
-        uuid: ""
+        uuid: "",
+        bg:"url("+require("../assets/images/login-background2.jpg")+")"
       },
       loginRules: {
         username: [
@@ -103,9 +104,12 @@ export default {
       immediate: true
     }
   },
+  mounted() {
+  },
   created() {
     this.getCode();
     this.getCookie();
+    this.bgChange();
   },
   methods: {
     getCode() {
@@ -150,18 +154,31 @@ export default {
           });
         }
       });
+    },
+    bgChange(){
+      let light=require("../assets/images/login-background2.jpg")
+      let night=require("../assets/images/login-background3.jpg")
+      let time=new Date().getHours()
+      if(time<18&&time>6){
+        document.documentElement.style.setProperty('--bg',`url(${light})`)
+      }else {
+        document.documentElement.style.setProperty('--bg',`url(${night})`)
+      }
     }
   }
 };
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+:root{
+  --bg:url("https://pic.netbian.com/uploads/allimg/230209/000746-167587246649c4.jpg");
+}
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background2.jpg");
+  background-image: var(--bg);
   background-size: cover;
 }
 .title {

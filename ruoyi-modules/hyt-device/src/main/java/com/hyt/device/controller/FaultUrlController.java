@@ -4,9 +4,11 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -57,13 +59,13 @@ public class FaultUrlController extends BaseController
      */
     @ApiOperation("导出【故障】列表")
     @RequiresPermissions("device:faultUrl:export")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "【维护数据表导出】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, FaultUrl faultUrl)
+    public void export(HttpServletResponse response,FaultUrl faultUrl)
     {
         List<FaultUrl> list = faultUrlService.selectFaultUrlList(faultUrl);
         ExcelUtil<FaultUrl> util = new ExcelUtil<FaultUrl>(FaultUrl.class);
-        util.exportExcel(response, list, "【请填写功能名称】数据");
+        util.exportExcel(response, list, "【维护数据表】");
     }
 
     /**
@@ -84,7 +86,7 @@ public class FaultUrlController extends BaseController
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("新增【故障】")
-    public AjaxResult add(@RequestBody FaultUrl faultUrl)
+    public AjaxResult add(@Validated @RequestBody FaultUrl faultUrl)
     {
         return toAjax(faultUrlService.insertFaultUrl(faultUrl));
     }
@@ -98,6 +100,9 @@ public class FaultUrlController extends BaseController
     @ApiOperation("修改【故障】")
     public AjaxResult edit(@RequestBody FaultUrl faultUrl)
     {
+        if (StringUtils.isEmpty(faultUrl.getId().toString())) {
+            return  toAjax(faultUrlService.insertFaultUrl(faultUrl));
+        }
         return toAjax(faultUrlService.updateFaultUrl(faultUrl));
     }
 

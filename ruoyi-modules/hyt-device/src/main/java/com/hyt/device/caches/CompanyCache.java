@@ -29,11 +29,13 @@ public class CompanyCache {
 
     @PostConstruct
     public void start() {
-        Set<String> companyName = DeviceRoutemsgMapper.selectCompanyName();
-        Iterator<String> iterator = companyName.iterator();
-        while (iterator.hasNext()){
-            String next = iterator.next();
-            companyRedisTemplate.opsForSet().add(CacheConstants.COMPANY_NAME,next);
+        if(!companyRedisTemplate.hasKey(CacheConstants.COMPANY_NAME)){
+            Set<String> companyName = DeviceRoutemsgMapper.selectCompanyName();
+            Iterator<String> iterator = companyName.iterator();
+            while (iterator.hasNext()){
+                String next = iterator.next();
+                companyRedisTemplate.opsForSet().add(CacheConstants.COMPANY_NAME,next);
+            }
         }
     }
 

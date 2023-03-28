@@ -28,12 +28,14 @@ public class RoutesNameCaches {
 
     @PostConstruct
     public void start(){
-        Set<String> companyNames = deviceRoutemsgMapper.selectCompanyName();
+        if(!redisTemplate.hasKey(CacheConstants.ALL_ROUTENAMES)){
+            Set<String> companyNames = deviceRoutemsgMapper.selectCompanyName();
 
-        for(String companyName:companyNames)
-        {
-            List<DeviceRoutemsg> deviceRoutemsgs = deviceRoutemsgMapper.selectRouteMsgNameByCompany(companyName);
-            redisTemplate.opsForHash().put(CacheConstants.ALL_ROUTENAMES,companyName,deviceRoutemsgs);
+            for(String companyName:companyNames)
+            {
+                List<DeviceRoutemsg> deviceRoutemsgs = deviceRoutemsgMapper.selectRouteMsgNameByCompany(companyName);
+                redisTemplate.opsForHash().put(CacheConstants.ALL_ROUTENAMES,companyName,deviceRoutemsgs);
+            }
         }
     }
     

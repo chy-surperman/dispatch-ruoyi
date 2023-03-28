@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="gpsStatus != null  and gpsStatus != ''"> and gpsStatus = #{gpsStatus}</if>
             <if test="siteUploadStatus != null  and siteUploadStatus != ''"> and siteUploadStatus = #{siteUploadStatus}</if>
             <if test="company != null  and company != ''"> and company = #{company}</if>
-        </where>
+        </where> order by 
     </select>
 
 
