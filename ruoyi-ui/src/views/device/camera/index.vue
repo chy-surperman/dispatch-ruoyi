@@ -165,6 +165,14 @@
         </el-form-item>
       </el-form>
     </el-drawer>
+    <el-dialog :visible.sync="isExport" width="30%">
+      <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" /><span style="font-family: maoken;color: brown">提示</span></div>
+      <div style="font-size: 1rem;font-family: maoken">是否导出选中选中项？</div>
+      <div slot="footer">
+        <el-button @click="isExport = false">取 消</el-button>
+        <el-button type="primary" @click="exportBreakdowns()"> 确 定 </el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -198,10 +206,12 @@ export default {
       form:{},
       cameraIds:[],
       loading:false,
+      isExport:false,
       rules:{
         deviceId:[{ required: true,message:'请输入终端编号',trigger: 'blur' }],
         cameraList:[{ required: true,message:'请输入摄像头编号，使用\',\'分隔',trigger: 'blur' }]
-      }
+      },
+
     }
   },
   methods: {
@@ -306,7 +316,14 @@ export default {
           return false
         }
       })
-    }
+    },
+    //导出选中项
+    exportBreakdowns() {
+      this.download('/device/cameraList/export',{
+        ids:this.cameraIds
+      },`${new Date().getTime()}.xlsx`)
+      this.isExport=false
+    },
   },
   watch: {
 

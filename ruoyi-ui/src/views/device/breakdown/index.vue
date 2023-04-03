@@ -215,7 +215,7 @@
       </el-dialog>
       <el-dialog :visible.sync="isExport" width="30%">
         <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" /><span style="font-family: maoken;color: brown">提示</span></div>
-        <div style="font-size: 1rem;font-family: maoken">是否导出选中文章？</div>
+        <div style="font-size: 1rem;font-family: maoken">是否导出选中选中项？</div>
         <div slot="footer">
           <el-button @click="isExport = false">取 消</el-button>
           <el-button type="primary" @click="exportBreakdowns()"> 确 定 </el-button>
