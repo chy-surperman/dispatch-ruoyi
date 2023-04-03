@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyt.device.mapper.DeviceCameralistMapper">
-    
+
     <resultMap type="DeviceCameralist" id="DeviceCameralistResult">
         <result property="id"    column="id"    />
         <result property="deviceId"    column="deviceId"    />
@@ -27,6 +27,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select c.id, c.deviceId, c.cameraList, c.currentTime, c.showDate, d.company, d.routeName, d.selfNum, d.plateNum, d.iccid, d.currentDeviceVersion, d.screenBrightness from device_cameraList c,device d
         <where>
             c.deviceId=d.deviceId
+            <if test="id != null  and id != ''"> and id in
+                 <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+                    ${item}
+                </foreach>
+            </if>
             <if test="deviceId != null  and deviceId != ''"> and deviceId = #{deviceId}</if>
             <if test="cameraList != null  and cameraList != ''"> and cameraList = #{cameraList}</if>
             <if test="currentTime != null "> and currentTime = #{currentTime}</if>
@@ -42,12 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             order  by d.routeName asc
         </where>
     </select>
-    
+
     <select id="selectDeviceCameralistById" parameterType="Long" resultMap="DeviceCameralistResult">
         <include refid="selectDeviceCameralistVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertDeviceCameralist" parameterType="DeviceCameralist" useGeneratedKeys="true" keyProperty="id">
         insert into device_cameraList
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -80,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDeviceCameralistByIds" parameterType="String">
-        delete from device_cameraList where id in 
+        delete from device_cameraList where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
