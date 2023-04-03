@@ -9,7 +9,7 @@
         icon="el-icon-download"
         :disabled="false"
         @click="isExport = true">
-        批量导出
+        导出文档
       </el-button>
       <!--        搜索栏-->
       <div style="margin-left: auto">
@@ -92,7 +92,7 @@
 
     <el-dialog :visible.sync="isExport" width="30%">
       <div class="dialog-title-container" slot="title"><i class="el-icon-warning" style="color: #ff9900" /><span style="font-family: maoken;color: brown">提示</span></div>
-      <div style="font-size: 1rem;font-family: maoken">是否导出选中？</div>
+      <div style="font-size: 1rem;font-family: maoken">是否导出？</div>
       <div slot="footer">
         <el-button @click="isExport = false">取 消</el-button>
         <el-button type="primary" @click="exportChecks()"> 确 定 </el-button>
@@ -137,7 +137,7 @@ export default {
       if (this.queryDate>10){
         this.queryDate=this.queryDate.getFullYear()+"-"+
           (this.queryDate.getMonth()<10 ? "0" : "")+(this.queryDate.getMonth()+1)+"-"+
-          (this.queryDate.getDate()<10 ? "0":"")+this.queryDate.getDate()
+          (this.queryDate.getDate()<10 ? "0":"")+(this.queryDate.getDate()-1)
       }
       let query = { workdate:this.queryDate }
       CameraCheck(query).then(response => {
