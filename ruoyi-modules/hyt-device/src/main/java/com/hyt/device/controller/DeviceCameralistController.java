@@ -35,6 +35,9 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 @RequestMapping("/cameraList")
 public class DeviceCameralistController extends BaseController
 {
+
+    private static final long serialVersionUID = 1L;
+
     @Autowired
     private IDeviceCameralistService deviceCameralistService;
 
@@ -54,14 +57,14 @@ public class DeviceCameralistController extends BaseController
      * 导出【请填写功能名称】列表
      */
     @RequiresPermissions("device:cameraList:export")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "【摄像头列表名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, DeviceCameralist deviceCameralist)
     {
         startPage();
         List<DeviceCameralist> list = deviceCameralistService.selectDeviceCameralistList(deviceCameralist);
         ExcelUtil<DeviceCameralist> util = new ExcelUtil<DeviceCameralist>(DeviceCameralist.class);
-        util.exportExcel(response, list, "【请填写功能名称】数据");
+        util.exportExcel(response, list, "【摄像头列表】数据");
     }
 
     /**

@@ -36,34 +36,34 @@ public class DeviceCameralist extends BaseEntity
     }
 
     /** $column.columnComment */
-    @Excel(name = "设备编号", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "设备编号")
     private String deviceId;
 
     /** $column.columnComment */
-    @Excel(name = "摄像头编号", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "摄像头编号")
     private String cameraList;
 
     /** $column.columnComment */
-    @Excel(name = "当前时间戳", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "当前时间戳")
     private Long currentTime;
 
     /** $column.columnComment */
-    @Excel(name = "当前时间", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "当前时间")
     private Date showDate;
 
-    @Excel(name = "公司名称", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "公司名称")
     private String company;
-    @Excel(name = "线路名称", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "线路名称")
     private String routeName;
-    @Excel(name = "自编号", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "自编号")
     private String selfNum;
-    @Excel(name = "车牌号", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "车牌号")
     private String plateNum;
-    @Excel(name = "ICCID", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "ICCID")
     private String iccid;
-    @Excel(name = "当前版本", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "当前版本")
     private String currentDeviceVersion;
-    @Excel(name = "屏幕亮度", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "屏幕亮度")
     private String screenBrightness;
 
     public String getCompany() {
