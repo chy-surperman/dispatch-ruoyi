@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null  and id != ''"> and id in
                  <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
                     ${item}
-                </foreach>
+                 </foreach>
             </if>
             <if test="deviceId != null  and deviceId != ''"> and deviceId = #{deviceId}</if>
             <if test="cameraList != null  and cameraList != ''"> and cameraList = #{cameraList}</if>
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="iccid != null "> and iccid = #{iccid}</if>
             <if test="currentDeviceVersion != null "> and currentDeviceVersion = #{currentDeviceVersion}</if>
             <if test="screenBrightness != null "> and screenBrightness = #{screenBrightness}</if>
-            <if test="searchValue != null">and selfNum like '%${searchValue}%' or routeName like '%${searchValue}%' or deviceId like '%${searchValue}%'</if>
+            <if test="searchValue != null">and selfNum like '%${searchValue}%' or routeName like '%${searchValue}%'</if>
             order  by d.routeName asc
         </where>
     </select>
