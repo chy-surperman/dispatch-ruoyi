@@ -17,4 +17,3 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   main:
     show-banner: false
-

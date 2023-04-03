@@ -9,7 +9,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
  * 【请填写功能名称】对象 device_cameraList
- * 
+ *
  * @author chy
  * @date 2023-02-24
  */
@@ -20,39 +20,50 @@ public class DeviceCameralist extends BaseEntity
     /** $column.columnComment */
     private Long id;
 
+    /** $column.columnComment */
+    private Long[] ids;
+
+    public Long[] getIds() {
+        return ids;
+    }
+
+    public void setIds(Long[] ids) {
+        this.ids = ids;
+    }
+
     public String getDeviceId() {
         return deviceId;
     }
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "设备编号", readConverterExp = "$column.readConverterExp()")
     private String deviceId;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "摄像头编号", readConverterExp = "$column.readConverterExp()")
     private String cameraList;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "当前时间戳", readConverterExp = "$column.readConverterExp()")
     private Long currentTime;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "当前时间", readConverterExp = "$column.readConverterExp()")
     private Date showDate;
 
-
+    @Excel(name = "公司名称", readConverterExp = "$column.readConverterExp()")
     private String company;
-
+    @Excel(name = "线路名称", readConverterExp = "$column.readConverterExp()")
     private String routeName;
-
+    @Excel(name = "自编号", readConverterExp = "$column.readConverterExp()")
     private String selfNum;
-
+    @Excel(name = "车牌号", readConverterExp = "$column.readConverterExp()")
     private String plateNum;
-
+    @Excel(name = "ICCID", readConverterExp = "$column.readConverterExp()")
     private String iccid;
-
+    @Excel(name = "当前版本", readConverterExp = "$column.readConverterExp()")
     private String currentDeviceVersion;
-
+    @Excel(name = "屏幕亮度", readConverterExp = "$column.readConverterExp()")
     private String screenBrightness;
 
     public String getCompany() {
@@ -123,17 +134,17 @@ public class DeviceCameralist extends BaseEntity
 
 
 
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
 
-    public void setDeviceId(String deviceId) 
+    public void setDeviceId(String deviceId)
     {
         this.deviceId = deviceId;
     }
@@ -150,12 +161,12 @@ public class DeviceCameralist extends BaseEntity
     {
         return currentTime;
     }
-    public void setShowDate(Date showDate) 
+    public void setShowDate(Date showDate)
     {
         this.showDate = showDate;
     }
 
-    public Date getShowDate() 
+    public Date getShowDate()
     {
         return showDate;
     }

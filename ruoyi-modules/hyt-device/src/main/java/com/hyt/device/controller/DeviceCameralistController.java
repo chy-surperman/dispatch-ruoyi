@@ -26,7 +26,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 【请填写功能名称】Controller
- * 
+ *
  * @author chy
  * @date 2023-02-24
  */
@@ -58,6 +58,7 @@ public class DeviceCameralistController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, DeviceCameralist deviceCameralist)
     {
+        startPage();
         List<DeviceCameralist> list = deviceCameralistService.selectDeviceCameralistList(deviceCameralist);
         ExcelUtil<DeviceCameralist> util = new ExcelUtil<DeviceCameralist>(DeviceCameralist.class);
         util.exportExcel(response, list, "【请填写功能名称】数据");
