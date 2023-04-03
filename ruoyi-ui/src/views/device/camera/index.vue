@@ -255,7 +255,7 @@ export default {
         pageSize:this.size,
         pageNum:this.current,
         routeName:this.routeName,
-        searchValue:this.keyword,
+        searchValue:this.keywords,
       }
       console.log(query)
       ListCamera(query).then(response => {
