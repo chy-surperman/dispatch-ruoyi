@@ -25,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * 【请填写功能名称】Controller
- * 
+ *
  * @author chy
  * @date 2023-02-24
  */
@@ -69,7 +69,6 @@ public class DeviceController extends BaseController
     @GetMapping("/listByParam")
     public TableDataInfo listByParam(String routeName,String company)
     {
-        startPage();
         List<Device> list = deviceService.selectDeviceListAndParam(routeName,company);
         return getDataTable(list);
     }

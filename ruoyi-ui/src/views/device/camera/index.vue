@@ -322,7 +322,7 @@ export default {
       this.download('/device/cameraList/export',{
         ids:this.cameraIds
       },`${new Date().getTime()}.xlsx`)
-      this.isExport=false
+      // this.isExport=false
     },
   },
   watch: {
