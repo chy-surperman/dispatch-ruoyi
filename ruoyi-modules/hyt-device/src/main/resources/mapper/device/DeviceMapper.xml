@@ -60,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectDeviceListAndPageNum"   resultMap="DeviceResult">
         <include refid="selectDeviceVo"/>
         <where>
+            company in ('通畅巴士','星通公交')
             <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
             <if test="selfNum != null  and selfNum != ''"> and selfNum = #{selfNum}</if>
         </where>
