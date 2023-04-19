@@ -12,19 +12,19 @@ import com.hyt.device.service.IDeviceService;
 
 /**
  * 【请填写功能名称】Service业务层处理
- * 
+ *
  * @author chy
  * @date 2023-02-24
  */
 @Service
-public class DeviceServiceImpl implements IDeviceService 
+public class DeviceServiceImpl implements IDeviceService
 {
     @Autowired
     private DeviceMapper deviceMapper;
 
     /**
      * 查询【请填写功能名称】
-     * 
+     *
      * @param id 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
@@ -36,7 +36,7 @@ public class DeviceServiceImpl implements IDeviceService
 
     /**
      * 查询【请填写功能名称】列表
-     * 
+     *
      * @param device 【请填写功能名称】
      * @return 【请填写功能名称】
      */
@@ -47,13 +47,13 @@ public class DeviceServiceImpl implements IDeviceService
     }
 
     @Override
-    public List<Device> selectDeviceListAndParam(String routeName,String company) {
-        return deviceMapper.selectDeviceListAndPageNum(routeName, company);
+    public List<Device> selectDeviceListAndParam(String routeName,String selfNum) {
+        return deviceMapper.selectDeviceListAndPageNum(routeName, selfNum);
     }
 
     /**
      * 新增【请填写功能名称】
-     * 
+     *
      * @param device 【请填写功能名称】
      * @return 结果
      */
@@ -65,7 +65,7 @@ public class DeviceServiceImpl implements IDeviceService
 
     /**
      * 修改【请填写功能名称】
-     * 
+     *
      * @param device 【请填写功能名称】
      * @return 结果
      */
@@ -77,7 +77,7 @@ public class DeviceServiceImpl implements IDeviceService
 
     /**
      * 批量删除【请填写功能名称】
-     * 
+     *
      * @param ids 需要删除的【请填写功能名称】主键
      * @return 结果
      */
@@ -89,7 +89,7 @@ public class DeviceServiceImpl implements IDeviceService
 
     /**
      * 删除【请填写功能名称】信息
-     * 
+     *
      * @param id 【请填写功能名称】主键
      * @return 结果
      */

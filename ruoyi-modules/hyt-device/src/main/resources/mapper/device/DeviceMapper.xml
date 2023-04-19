@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyt.device.mapper.DeviceMapper">
-    
+
     <resultMap type="Device" id="DeviceResult">
         <result property="id"    column="id"    />
         <result property="vehicleId"    column="vehicleId"    />
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectDeviceList"  parameterType="Device" resultMap="DeviceResult">
         <include refid="selectDeviceVo"/>
-        <where>  
+        <where>
             <if test="vehicleId != null "> and vehicleId = #{vehicleId}</if>
             <if test="plateNum != null  and plateNum != ''"> and plateNum = #{plateNum}</if>
             <if test="selfNum != null  and selfNum != ''"> and selfNum = #{selfNum}</if>
@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="gpsStatus != null  and gpsStatus != ''"> and gpsStatus = #{gpsStatus}</if>
             <if test="siteUploadStatus != null  and siteUploadStatus != ''"> and siteUploadStatus = #{siteUploadStatus}</if>
             <if test="company != null  and company != ''"> and company = #{company}</if>
-        </where> order by 
+        </where> order by
     </select>
 
 
@@ -61,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDeviceVo"/>
         <where>
             <if test="routeName != null  and routeName != ''"> and routeName like concat('%', #{routeName}, '%')</if>
-            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="selfNum != null  and selfNum != ''"> and selfNum = #{selfNum}</if>
         </where>
     </select>
 
@@ -72,12 +72,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
-    
+
     <select id="selectDeviceById" parameterType="Long" resultMap="DeviceResult">
         <include refid="selectDeviceVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertDevice" parameterType="Device" useGeneratedKeys="true" keyProperty="id">
         insert into device
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -155,7 +155,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDeviceByIds" parameterType="String">
-        delete from device where id in 
+        delete from device where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

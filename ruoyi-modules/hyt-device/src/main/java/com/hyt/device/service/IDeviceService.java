@@ -5,15 +5,15 @@ import com.hyt.device.domain.Device;
 
 /**
  * 【请填写功能名称】Service接口
- * 
+ *
  * @author chy
  * @date 2023-02-24
  */
-public interface IDeviceService 
+public interface IDeviceService
 {
     /**
      * 查询【请填写功能名称】
-     * 
+     *
      * @param id 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
@@ -21,7 +21,7 @@ public interface IDeviceService
 
     /**
      * 查询【请填写功能名称】列表
-     * 
+     *
      * @param device 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
@@ -34,11 +34,11 @@ public interface IDeviceService
      * @param device 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
-    public List<Device> selectDeviceListAndParam(String routeName,String company);
+    public List<Device> selectDeviceListAndParam(String routeName,String selfNum);
 
     /**
      * 新增【请填写功能名称】
-     * 
+     *
      * @param device 【请填写功能名称】
      * @return 结果
      */
@@ -46,7 +46,7 @@ public interface IDeviceService
 
     /**
      * 修改【请填写功能名称】
-     * 
+     *
      * @param device 【请填写功能名称】
      * @return 结果
      */
@@ -54,7 +54,7 @@ public interface IDeviceService
 
     /**
      * 批量删除【请填写功能名称】
-     * 
+     *
      * @param ids 需要删除的【请填写功能名称】主键集合
      * @return 结果
      */
@@ -62,7 +62,7 @@ public interface IDeviceService
 
     /**
      * 删除【请填写功能名称】信息
-     * 
+     *
      * @param id 【请填写功能名称】主键
      * @return 结果
      */

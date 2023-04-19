@@ -67,9 +67,9 @@ public class DeviceController extends BaseController
     @ApiOperation("通过公司名称，线路名 查找车辆信息 分页查询")
     @RequiresPermissions("device:device:list")
     @GetMapping("/listByParam")
-    public TableDataInfo listByParam(String routeName,String company)
+    public TableDataInfo listByParam(String routeName,String selfNum)
     {
-        List<Device> list = deviceService.selectDeviceListAndParam(routeName,company);
+        List<Device> list = deviceService.selectDeviceListAndParam(routeName,selfNum);
         return getDataTable(list);
     }
 
