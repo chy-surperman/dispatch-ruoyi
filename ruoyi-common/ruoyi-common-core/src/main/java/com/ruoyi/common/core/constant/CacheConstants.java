@@ -2,7 +2,7 @@ package com.ruoyi.common.core.constant;
 
 /**
  * 缓存常量信息
- * 
+ *
  * @author ruoyi
  */
 public class CacheConstants
@@ -70,4 +70,15 @@ public class CacheConstants
      * 线路名
      */
     public static  final String ALL_VEHICLES ="all_vehicles";
+
+
+
+    /**
+     * GPSConvertTool
+     */
+    public static  final String GPSConvertTool ="gps_convert_sites";
+
+
+
+
 }
